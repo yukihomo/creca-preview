@@ -484,9 +484,9 @@
 
   function isMujiMerchant(name){var n=(name||"").toString().toLowerCase();return n.indexOf("無印良品")!==-1||n.indexOf("muji")!==-1;}
   // Olive対象のコンビニ・飲食店（公式・2026-02-01〜。ファミマ等は対象外）。スマホのタッチ決済確認時のみ8%。
-  function isOliveMerchant(name){var n=(name||"").toString().toLowerCase();return ["セブン","ローソン","ミニストップ","マクドナルド","モスバーガー","ケンタッキー","kfc","吉野家","サイゼ","ガスト","バーミヤン","ジョナサン","夢庵","しゃぶ葉","すき家","はま寿司","ココス","ドトール"].some(function(k){return n.indexOf(k.toLowerCase())!==-1;});}
+  function isOliveMerchant(name){var n=(name||"").toString().toLowerCase();return ["セブン","ローソン","ミニストップ","セイコーマート","ポプラ","マクドナルド","モスバーガー","ケンタッキー","kfc","吉野家","サイゼ","ガスト","バーミヤン","ジョナサン","夢庵","しゃぶ葉","すき家","はま寿司","かっぱ寿司","ココス","ドトール","エクセルシオール","から好し","グラッチェ","とんから亭","ゆめあん","藍屋","魚屋路","ステーキガスト","八郎そば","桃菜"].some(function(k){return n.indexOf(k.toLowerCase())!==-1;});}
   // 三菱UFJカードの対象店（公式・7%＝基本0.5%+スペシャル6.5%、スペシャル上限5万円/月）。コンビニ・飲食・スーパー。
-  function isMufgMerchant(name){var n=(name||"").toString().toLowerCase();return ["セブン","ローソン","ミニストップ","松屋","松のや","マイカリー","ピザハット","オーケー","オオゼキ","東急ストア","東武ストア","三和","アオキスーパー","肉のハナマサ","ハナマサ","ジャパンミート","ヤマナカ","近商","ドミー","サンリブ","ハーベス","コクミン"].some(function(k){return n.indexOf(k.toLowerCase())!==-1;});}
+  function isMufgMerchant(name){var n=(name||"").toString().toLowerCase();return ["セブン","ローソン","ミニストップ","松屋","松のや","マイカリー","ピザハット","くら寿司","スシロー","ゼッテリア","ロッテリア","オーケー","オオゼキ","東急ストア","東武ストア","三和","アオキスーパー","肉のハナマサ","ハナマサ","ジャパンミート","ヤマナカ","近商","ドミー","サンリブ","ハーベス","スーパー魚長","フィール","フードストア","フードワン","コクミン"].some(function(k){return n.indexOf(k.toLowerCase())!==-1;});}
   // イオングループ対象店（イオンカード払いで1%＝WAON POINT2倍・自動。ミニストップは別途AEON Pay特典で扱う）。まいばすけっと等。
   function isAeonGroup(name){var n=(name||"").toString().toLowerCase();return ["イオン","まいばす","マックスバリュ","ダイエー","ビブレ","ザ・ビッグ","マルナカ","カスミ","いなげや"].some(function(k){return n.indexOf(k.toLowerCase())!==-1;});}
   function merchantKeys(card){var keys=Object.keys(card.merchants||{});if(card.id==="muji_card_visa")keys.push("無印良品","muji");return keys;}
