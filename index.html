@@ -163,6 +163,19 @@
   .source-links{font-size:12px;line-height:1.8;padding-left:18px;margin:8px 0 0;}
   .source-links a{color:var(--brand);}
   footer.foot{text-align:center;font-size:11.5px;color:var(--faint);margin-top:26px;}
+  .modal{position:fixed;inset:0;background:rgba(74,53,66,.5);display:flex;align-items:center;justify-content:center;z-index:100;padding:20px;}
+  .modal.hide{display:none;}
+  .modalbox{background:var(--surface);border-radius:20px;padding:26px 22px 22px;max-width:360px;width:100%;text-align:center;box-shadow:0 24px 60px rgba(0,0,0,.32);position:relative;animation:rise .3s ease both;}
+  .modalclose{position:absolute;top:8px;right:12px;background:transparent;border:0;font-size:24px;line-height:1;color:var(--faint);cursor:pointer;padding:4px 8px;}
+  .modaltag{font-size:12px;color:var(--brand);font-weight:700;letter-spacing:.05em;margin:0 0 12px;}
+  .cardface{height:132px;border-radius:14px;background:linear-gradient(135deg,var(--brand),var(--action));color:#fff;display:flex;flex-direction:column;justify-content:space-between;align-items:flex-start;padding:14px 16px;margin:0 auto 14px;box-shadow:0 8px 20px rgba(0,0,0,.2);text-align:left;}
+  .cardface .cf-chip{width:34px;height:24px;border-radius:5px;background:rgba(255,255,255,.75);}
+  .cardface .cf-name{font-size:14.5px;font-weight:750;line-height:1.3;}
+  .modalname{font-size:19px;font-weight:750;margin:0 0 4px;}
+  .modalsub{font-size:13.5px;color:var(--muted);margin:0 0 16px;}
+  .modalapply{display:block;background:var(--action);color:#fff;text-decoration:none;font-weight:750;padding:14px;border-radius:12px;font-size:15px;box-shadow:0 6px 14px color-mix(in srgb,var(--action) 28%,transparent);}
+  .modalapply:hover{background:var(--action-strong);}
+  .modalnote{font-size:10.5px;color:var(--faint);margin:12px 0 0;line-height:1.55;}
 </style>
 
 <div class="wrap"><div class="shell">
@@ -360,6 +373,17 @@
     </section>
 
   </div>
+  <div id="resultModal" class="modal hide" role="dialog" aria-modal="true">
+    <div class="modalbox">
+      <button class="modalclose" id="modalClose" aria-label="閉じる">×</button>
+      <p class="modaltag">💳 あなたに最適の一枚</p>
+      <div class="cardface" id="modalCardFace"></div>
+      <p class="modalname" id="modalCardName">—</p>
+      <p class="modalsub" id="modalCardSub"></p>
+      <a class="modalapply" id="modalApply" href="#" target="_blank" rel="noopener noreferrer">公式サイトで申し込む</a>
+      <p class="modalnote">※還元はサンプル/要監修の概算です。券面は仮デザイン（提携後に差し替え）。お申し込み前に各カード公式ページで最新の年会費・還元・条件をご確認ください。</p>
+    </div>
+  </div>
   <footer class="foot">クライアントサイド v19・実カードの通常還元比較／特約店・キャンペーン・対象外条件は利用時点で要確認。</footer>
 
 </div></div>
@@ -405,6 +429,7 @@
     "dポイント":{yen:1.0,note:"1pt=1円相当として比較"},
     "グローバルポイント":{yen:5.0,note:"1pt=5円相当の利用方法で比較"},
     "WAON POINT":{yen:1.0,note:"1pt=1円相当として比較"},
+    "ゴールドポイント":{yen:1.0,note:"1pt=1円相当（ヨドバシ等）"},
     "PayPayポイント":{yen:1.0,note:"1pt=1円相当として比較"},
     "スマプロポイント":{yen:1.0,note:"1pt=1円相当として比較"},
     "現金キャッシュバック":{yen:1.0,note:"1円=1円として比較"}
@@ -438,6 +463,7 @@
     {id:"p_one_standard",name:"P-oneカード＜Standard＞",reward:"現金値引き",note:"請求時に自動で約1%オフ・年会費無料",base:0.010,fee:0,rates:{},merchants:{},eligibility:"年会費永年無料。毎月の請求から自動で約1%値引き（一部対象外あり）",source:"https://www.pocketcard.co.jp/card/card_pone_s.html"},
     {id:"life_card",name:"ライフカード",reward:"LIFEサンクスポイント",note:"通常0.5%・誕生月は3倍・年会費無料",base:0.005,fee:0,rates:{},merchants:{},eligibility:"年会費永年無料。誕生月の還元アップや交換先による価値変動は別途確認",source:"https://www.lifecard.co.jp/card/personal/normal/"},
     {id:"jcb_card_s",name:"JCBカード S",reward:"J-POINT",note:"通常0.5%・年会費無料",base:0.005,fee:0,rates:{},merchants:{},eligibility:"年会費永年無料。優待店（J-POINTパートナー）の上乗せは条件確認",source:"https://www.jcb.co.jp/ordercard/kojin_card/jcb_card_s.html"},
+    {id:"yodobashi_gold_plus",name:"ゴールドポイントカード・プラス（ヨドバシ）",reward:"ゴールドポイント",note:"通常1.0%・ヨドバシで11%・年会費無料",base:0.010,fee:0,rates:{},merchants:{},eligibility:"年会費無料。ヨドバシカメラでのカード払いで11%（現金同等10%＋カード1%）。ヨドバシ以外は1%",source:"https://www.goldpoint.co.jp/gpcard/plus/"},
     {id:"saison_pearl_amex",name:"セゾンパール・アメリカン・エキスプレス・カード",reward:"永久不滅ポイント",note:"通常0.5%相当・QUICPayで2%（年30万まで・条件）・年1回利用で無料",base:0.001,fee:0,inactivityFee:1100,inactivityFeeLabel:"前年に1回以上利用で翌年無料",rates:{},merchants:{},eligibility:"前年1回以上の利用で翌年無料（未利用時は年1,100円）。QUICPay2%は年30万円まで、超過後0.5%。永久不滅は交換先で価値変動",source:"https://www.diamond.co.jp/zai/articles/-/120"},
     {id:"rakuten_gold_card",name:"楽天ゴールドカード",reward:"楽天ポイント",note:"通常1.0%・楽天市場優待・年会費2,200円",base:0.010,fee:2200,rates:{},merchants:{},eligibility:"年会費2,200円（税込）。楽天市場での上乗せ（SPU）は条件・上限あり",source:"https://www.rakuten-card.co.jp/card/rakuten-gold-card/"},
     {id:"smbc_gold_nl",name:"三井住友カード ゴールド（NL）",reward:"Vポイント",note:"通常0.5%・対象店タッチ最大7%（条件）・年100万で翌年以降永年無料",base:0.005,fee:5500,rates:{},merchants:{},eligibility:"年会費5,500円（税込）。年間100万円利用で翌年以降の年会費永年無料＋10,000ポイント。対象店の高還元は決済条件つき",source:"https://www.smbc-card.com/nyukai/card/gold-numberless.jsp"},
@@ -473,6 +499,7 @@
       if(ministopMode==="aeonpay_mobile_order_weekend")return 0.10;
     }
     if(card.id==="aeon_card_waon"&&isAeonGroup(n))return 0.01;
+    if(card.id==="yodobashi_gold_plus"&&(n.indexOf("ヨドバシ")!==-1||n.indexOf("yodobashi")!==-1))return 0.11;
     if(card.id==="olive_flexible_pay_credit"&&oliveMode==="tap_target"&&isOliveMerchant(n))return 0.08;
     for(var k in card.merchants){if(n.indexOf(k.toLowerCase())!==-1)return card.merchants[k];}
     return null;
@@ -795,6 +822,13 @@
 
     renderCampaigns(lastRows);
     renderRuleset(condOn);
+    var bc0=a.best.cards[0];
+    if(bc0){
+      document.getElementById("modalCardName").textContent=bc0.name;
+      document.getElementById("modalCardSub").textContent="実質年間還元 "+yen(a.best.annualNet)+"（"+bc0.reward+"）";
+      document.getElementById("modalCardFace").innerHTML='<span class="cf-chip"></span><span class="cf-name">'+esc(bc0.name)+'</span>';
+      document.getElementById("modalApply").href=bc0.source||"#";
+    }
     var res=document.getElementById("results");
     if(!res.classList.contains("show")){res.classList.add("show");res.scrollIntoView({behavior:"smooth",block:"start"});}
   }
@@ -838,8 +872,9 @@
     var ta=document.getElementById("csvInput");
     lastRows=parseCSV(ta.value,csvMapping());lastFromCsv=true;
     if(!lastRows.length){alert("有効な明細が読み取れませんでした。「内容,金額」でお試しください。");return;}
-    render();
+    render();showResultModal();
   }
+  function showResultModal(){if(lastRows&&lastRows.length)document.getElementById("resultModal").classList.remove("hide");}
   function setMode(m){mode=m;document.getElementById("tabSingle").setAttribute("aria-selected",m==="single");document.getElementById("tabMulti").setAttribute("aria-selected",m==="multi");document.getElementById("maxKwrap").classList.toggle("hide",m!=="multi");if(lastRows)render();}
   function setInputMode(m){document.getElementById("inTabCsv").setAttribute("aria-selected",m==="csv");document.getElementById("inTabManual").setAttribute("aria-selected",m==="manual");document.getElementById("csvPanel").classList.toggle("hide",m!=="csv");document.getElementById("manualPanel").classList.toggle("hide",m!=="manual");}
   function manualRows(){
@@ -860,7 +895,7 @@
     "外食":[["マクドナルド","マクドナルド"],["スターバックス","スタバ"],["ドトール","ドトール"],["松屋","松屋"],["吉野家","吉野家"],["すき家","すき家"],["ガスト","ガスト"],["サイゼリヤ","サイゼ"],["モスバーガー","モス"],["スシロー","スシロー"],["その他外食","外食"]],
     "ドラッグストア":[["マツキヨ","マツキヨ"],["ウエルシア","ウエルシア"],["サンドラッグ","サンドラッグ"],["ツルハ","ツルハ"],["スギ薬局","スギ薬局"],["ココカラファイン","ココカラ"],["その他ドラッグ","ドラッグ"]],
     "スーパー":[["イオン／マックスバリュ","イオン"],["まいばすけっと","まいばす"],["肉のハナマサ","肉のハナマサ"],["オーケー","オーケー"],["業務スーパー","業務スーパー"],["その他スーパー","スーパー"]],
-    "ネット通販":[["Amazon","Amazon"],["楽天市場","楽天"],["Yahoo!ショッピング","yahoo"],["ヨドバシ","ヨドバシ"],["その他ネット","ネット通販"]],
+    "ネット通販":[["Amazon","Amazon"],["楽天市場","楽天"],["Yahoo!ショッピング","yahoo"],["ヨドバシ","ヨドバシ"],["メルカリ","メルカリ"],["その他ネット","ネット通販"]],
     "交通":[["JR / Suica","JR"],["私鉄（乗車・概算）","私鉄"],["PASMOチャージ","PASMO"],["クレカのタッチ決済乗車","タッチ決済乗車"],["その他交通","交通"]]
   };
   function subInp(id,label){return '<div class="mfield"><label for="'+id+'">'+esc(label)+'</label><div class="inp"><span class="yen">¥</span><input id="'+id+'" type="number" inputmode="numeric" min="0" step="100" placeholder="0"></div></div>';}
@@ -913,7 +948,9 @@
   document.getElementById("goldQualifyingSpend").addEventListener("input",function(){renderCampaigns(lastRows||[]);});
   document.getElementById("inTabCsv").addEventListener("click",function(){setInputMode("csv");});
   document.getElementById("inTabManual").addEventListener("click",function(){setInputMode("manual");});
-  document.getElementById("manualCalc").addEventListener("click",function(){lastRows=manualRows();lastFromCsv=false;if(!lastRows.length){alert("金額をどれか1つでも入れてください。");return;}render();});
+  document.getElementById("manualCalc").addEventListener("click",function(){lastRows=manualRows();lastFromCsv=false;if(!lastRows.length){alert("金額をどれか1つでも入れてください。");return;}render();showResultModal();});
+  document.getElementById("modalClose").addEventListener("click",function(){document.getElementById("resultModal").classList.add("hide");});
+  document.getElementById("resultModal").addEventListener("click",function(e){if(e.target.id==="resultModal")document.getElementById("resultModal").classList.add("hide");});
   document.getElementById("manualSample").addEventListener("click",manualFillSample);
   document.getElementById("manualClear").addEventListener("click",function(){
     CATS.forEach(function(c,i){var el=document.getElementById("man_"+i);if(el)el.value="";var subs=MANUAL_SUB[c];if(subs)subs.forEach(function(s,j){var se=document.getElementById("man_sub_"+i+"_"+j);if(se)se.value="";});});
