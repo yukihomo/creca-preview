@@ -64,6 +64,11 @@
   .chk{display:inline-flex;align-items:center;gap:7px;font-size:13px;color:var(--muted);cursor:pointer;}
   .chk input{width:16px;height:16px;accent-color:var(--brand);}
   #maxKwrap.hide{display:none;}
+  .advanced{flex-basis:100%;margin:2px 0;}
+  .advanced summary{cursor:pointer;font-size:13px;font-weight:650;color:var(--action);padding:4px 0;list-style:none;}
+  .advanced summary::-webkit-details-marker{display:none;}
+  .advanced summary::before{content:"⚙ ";}
+  .advbody{display:flex;flex-wrap:wrap;gap:14px 16px;align-items:center;margin-top:10px;padding-left:6px;}
 
   .results{display:none;} .results.show{display:block;animation:rise .35s ease both;}
   @keyframes rise{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
@@ -208,6 +213,7 @@
   <section class="card">
     <h2>2. 最適化の方針</h2>
     <div class="modewrap">
+      <details class="advanced"><summary>詳細設定（複数枚で使い分け・貯めたいポイント・マイル価値）</summary><div class="advbody">
       <div class="tabs" role="tablist" aria-label="最適化モード">
         <button class="tab" id="tabSingle" role="tab" aria-selected="true">1枚に絞る</button>
         <button class="tab" id="tabMulti" role="tab" aria-selected="false">複数枚で使い分け</button>
@@ -221,6 +227,7 @@
       <span class="opt">1マイルの価値
         <select id="mileValue" aria-label="マイルの円換算価値"><option value="1">¥1.0</option><option value="1.5" selected>¥1.5</option><option value="2">¥2.0</option><option value="3">¥3.0</option></select>
       </span>
+      </div></details>
       <span class="opt">支払い方法
         <select id="paymentType"><option value="all">すべて</option><option value="credit">クレジットカードのみ</option><option value="debit">デビットカードのみ（即時引落）</option></select>
       </span>
@@ -714,8 +721,11 @@
     var a=analyze(lastRows,{condOn:condOn,maxK:maxK,pref:pref,freeOnly:freeOnly,studentEligible:studentEligible,paymentType:paymentType,ministopMode:ministopMode,mujiMode:mujiMode,oliveMode:oliveMode,jrMode:jrMode,qpMode:qpMode,mufgMode:mufgMode,transitMode:transitMode});
     // 条件モードは、その特典を持つカードが今の候補に含まれる時だけ表示する（UI整理）
     var candIds={};a.cardResults.forEach(function(c){candIds[c.card.id]=true;});
-    [["ministopModeWrap","aeon_card_waon"],["mujiModeWrap","muji_card_visa"],["oliveModeWrap","olive_flexible_pay_credit"],["jrModeWrap","jal_suica_club_a_gold"],["qpModeWrap","saison_pearl_amex"],["mufgModeWrap","mufg_card"]].forEach(function(m){var el=document.getElementById(m[0]);if(el)el.classList.toggle("hide",!candIds[m[1]]);});
-    var tw=document.getElementById("transitModeWrap");if(tw)tw.classList.toggle("hide",!(candIds["jcb_card_w"]||candIds["jcb_card_s"]));
+    [["ministopModeWrap","aeon_card_waon"],["mujiModeWrap","muji_card_visa"],["oliveModeWrap","olive_flexible_pay_credit"],["qpModeWrap","saison_pearl_amex"],["mufgModeWrap","mufg_card"]].forEach(function(m){var el=document.getElementById(m[0]);if(el)el.classList.toggle("hide",!candIds[m[1]]);});
+    // 乗車特化（JR/JCB）は1枚では選ばれにくいので複数枚モードの時だけ表示
+    var isMulti=(mode==="multi");
+    var jw=document.getElementById("jrModeWrap");if(jw)jw.classList.toggle("hide",!(isMulti&&candIds["jal_suica_club_a_gold"]));
+    var tw=document.getElementById("transitModeWrap");if(tw)tw.classList.toggle("hide",!(isMulti&&(candIds["jcb_card_w"]||candIds["jcb_card_s"])));
 
     var ministopTail=ministopMode==="aeonpay_store_weekend"?"・ミニストップAEON Pay店頭5%":ministopMode==="aeonpay_mobile_order_weekend"?"・ミニストップAEON Payモバイル注文10%":"";
     var tail=(paymentType==="debit"?"・デビットのみ":paymentType==="credit"?"・クレジットのみ":"")+ministopTail+(freeOnly?"・利用条件込みで年会費無料":"")+(studentEligible?"・学生向け可":"")+(pref?"・"+pref:"");
