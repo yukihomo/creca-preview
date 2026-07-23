@@ -370,10 +370,10 @@
   var CATS=["コンビニ","スーパー","ドラッグストア","外食","ネット通販","交通","携帯・通信","公共料金","ガソリン","その他"];
   var KW=[
     ["コンビニ",["セブン","ローソン","ファミマ","ファミリーマート","ミニストップ","デイリー","セイコーマート","セイコー","コンビニ"]],
-    ["スーパー",["イオン","西友","ライフ","マルエツ","業務スーパー","サミット","ヨーカドー","スーパー","マックスバリュ"]],
+    ["スーパー",["イオン","まいばす","西友","ライフ","マルエツ","業務スーパー","サミット","ヨーカドー","スーパー","マックスバリュ","肉のハナマサ","ハナマサ","オーケー","ダイエー"]],
     ["ドラッグストア",["マツキヨ","マツモトキヨシ","ウエルシア","サンドラッグ","ツルハ","ココカラ","ドラッグ","スギ薬局"]],
     ["外食",["スタバ","スターバックス","マクドナルド","マック","ドトール","居酒屋","レストラン","食堂","カフェ","すき家","吉野家","ラーメン","サイゼ","ガスト"]],
-    ["ネット通販",["amazon","アマゾン","楽天市場","楽天","ヨドバシ.com","ヨドバシ","メルカリ","zozo","ネット通販","qoo10","yahoo!ショッピング"]],
+    ["ネット通販",["amazon","アマゾン","楽天市場","楽天","ヨドバシ.com","ヨドバシ","メルカリ","zozo","ネット通販","qoo10","yahoo!ショッピング","yahoo","ヤフー","aliexpress","アリエク","shein","シーイン","ユニクロ","uniqlo","ジーユー"]],
     ["交通",["jr","メトロ","私鉄","suica","pasmo","icoca","タクシー","バス","航空","ana","jal","新幹線","交通","電車","タッチ決済乗車","東急","小田急","京王","西武","東武","名鉄","近鉄","阪急","阪神"]],
     ["携帯・通信",["ドコモ","docomo","au","ソフトバンク","softbank","楽天モバイル","povo","ahamo","uq","携帯","通信","光回線","nuro"]],
     ["公共料金",["電力","電気","ガス","水道","公共","でんき"]],
@@ -456,6 +456,8 @@
   function isOliveMerchant(name){var n=(name||"").toString().toLowerCase();return ["セブン","ローソン","ミニストップ","マクドナルド","モスバーガー","ケンタッキー","kfc","吉野家","サイゼ","ガスト","バーミヤン","ジョナサン","夢庵","しゃぶ葉","すき家","はま寿司","ココス","ドトール"].some(function(k){return n.indexOf(k.toLowerCase())!==-1;});}
   // 三菱UFJカードの対象店（公式・7%＝基本0.5%+スペシャル6.5%、スペシャル上限5万円/月）。コンビニ・飲食・スーパー。
   function isMufgMerchant(name){var n=(name||"").toString().toLowerCase();return ["セブン","ローソン","ミニストップ","松屋","松のや","マイカリー","ピザハット","オーケー","オオゼキ","東急ストア","東武ストア","三和","アオキスーパー","肉のハナマサ","ハナマサ","ジャパンミート","ヤマナカ","近商","ドミー","サンリブ","ハーベス","コクミン"].some(function(k){return n.indexOf(k.toLowerCase())!==-1;});}
+  // イオングループ対象店（イオンカード払いで1%＝WAON POINT2倍・自動。ミニストップは別途AEON Pay特典で扱う）。まいばすけっと等。
+  function isAeonGroup(name){var n=(name||"").toString().toLowerCase();return ["イオン","まいばす","マックスバリュ","ダイエー","ビブレ","ザ・ビッグ","マルナカ","カスミ","いなげや"].some(function(k){return n.indexOf(k.toLowerCase())!==-1;});}
   function merchantKeys(card){var keys=Object.keys(card.merchants||{});if(card.id==="muji_card_visa")keys.push("無印良品","muji");return keys;}
   function merchantRate(card,name,ministopMode,mujiMode,oliveMode,jrMode,qpMode,mufgMode,transitMode){
     if(!card.merchants)return null;
@@ -470,6 +472,7 @@
       if(ministopMode==="aeonpay_store_weekend")return 0.05;
       if(ministopMode==="aeonpay_mobile_order_weekend")return 0.10;
     }
+    if(card.id==="aeon_card_waon"&&isAeonGroup(n))return 0.01;
     if(card.id==="olive_flexible_pay_credit"&&oliveMode==="tap_target"&&isOliveMerchant(n))return 0.08;
     for(var k in card.merchants){if(n.indexOf(k.toLowerCase())!==-1)return card.merchants[k];}
     return null;
@@ -855,7 +858,8 @@
   var MANUAL_SUB={
     "コンビニ":[["セブンイレブン","セブン"],["ローソン","ローソン"],["ファミマ","ファミマ"],["ミニストップ","ミニストップ"],["デイリーヤマザキ","デイリー"],["セイコーマート","セイコーマート"],["その他コンビニ","コンビニ"]],
     "外食":[["マクドナルド","マクドナルド"],["ドトール","ドトール"],["ガスト","ガスト"],["サイゼリヤ","サイゼ"],["すき家","すき家"],["その他外食","外食"]],
-    "ネット通販":[["Amazon","Amazon"],["楽天市場","楽天"],["ヨドバシ","ヨドバシ"],["その他ネット","ネット通販"]],
+    "スーパー":[["イオン／マックスバリュ","イオン"],["まいばすけっと","まいばす"],["肉のハナマサ","肉のハナマサ"],["オーケー","オーケー"],["業務スーパー","業務スーパー"],["その他スーパー","スーパー"]],
+    "ネット通販":[["Amazon","Amazon"],["楽天市場","楽天"],["Yahoo!ショッピング","yahoo"],["ヨドバシ","ヨドバシ"],["その他ネット","ネット通販"]],
     "交通":[["JR / Suica","JR"],["私鉄（乗車・概算）","私鉄"],["PASMOチャージ","PASMO"],["クレカのタッチ決済乗車","タッチ決済乗車"],["その他交通","交通"]]
   };
   function subInp(id,label){return '<div class="mfield"><label for="'+id+'">'+esc(label)+'</label><div class="inp"><span class="yen">¥</span><input id="'+id+'" type="number" inputmode="numeric" min="0" step="100" placeholder="0"></div></div>';}
