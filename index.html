@@ -224,22 +224,22 @@
       <span class="opt">支払い方法
         <select id="paymentType"><option value="all">すべて</option><option value="credit">クレジットカードのみ</option><option value="debit">デビットカードのみ（即時引落）</option></select>
       </span>
-      <span class="opt">ミニストップ条件
+      <span class="opt hide" id="ministopModeWrap">ミニストップ条件
         <select id="ministopMode" aria-label="ミニストップのAEON Pay条件"><option value="">通常（店名一致だけでは特典を加算しない）</option><option value="aeon_card_or_waon">イオンマークのカード払い／電子マネーWAON（1%）</option><option value="aeonpay_store_weekend">AEON Pay店頭・金土日（5%）</option><option value="aeonpay_mobile_order_weekend">AEON Payモバイルオーダー・金土日（10%）</option></select>
       </span>
-      <span class="opt">MUJI Card条件
+      <span class="opt hide" id="mujiModeWrap">MUJI Card条件
         <select id="mujiMode" aria-label="MUJI Cardの無印良品特典"><option value="">通常（店名一致だけでは特典を加算しない）</option><option value="muji_card_or_passport_pay">MUJI Card払い／MUJI passport Pay（2.5%）</option><option value="other_smartphone_payment">他のスマホ決済（1.5%）</option></select>
       </span>
-      <span class="opt">Olive対象店
+      <span class="opt hide" id="oliveModeWrap">Olive対象店
         <select id="oliveMode" aria-label="Oliveの対象コンビニ・飲食店8%"><option value="">通常（0.5%）</option><option value="tap_target">対象コンビニ・飲食店でスマホのタッチ決済（8%）</option></select>
       </span>
-      <span class="opt">JR/Suica条件（JALカードSuicaゴールド）
+      <span class="opt hide" id="jrModeWrap">JR/Suica条件（JALカードSuicaゴールド）
         <select id="jrMode" aria-label="JALカードSuicaのJR特典"><option value="">通常（マイル）</option><option value="mobile_suica">モバイルSuicaチャージ（1.5%）</option><option value="ekinet">えきねっとで発券（新幹線・乗車券）（10%）</option></select>
       </span>
-      <span class="opt">QuicPay条件（セゾンパール）
+      <span class="opt hide" id="qpModeWrap">QuicPay条件（セゾンパール）
         <select id="qpMode" aria-label="セゾンパールのQuicPay"><option value="">通常（0.5%）</option><option value="quicpay">QuicPayが使える店で支払い（2%・年30万まで）</option></select>
       </span>
-      <span class="opt">三菱UFJ特約店（三菱UFJカード）
+      <span class="opt hide" id="mufgModeWrap">三菱UFJ特約店（三菱UFJカード）
         <select id="mufgMode" aria-label="三菱UFJカードの対象店7%"><option value="">通常（0.5%）</option><option value="tokuten">対象のコンビニ・飲食・スーパー（肉のハナマサ等）で7%</option></select>
       </span>
       <label class="chk"><input type="checkbox" id="freeChk">利用条件を満たせば年会費無料のカードだけ</label>
@@ -702,6 +702,9 @@
     var qpMode=document.getElementById("qpMode").value;
     var mufgMode=document.getElementById("mufgMode").value;
     var a=analyze(lastRows,{condOn:condOn,maxK:maxK,pref:pref,freeOnly:freeOnly,studentEligible:studentEligible,paymentType:paymentType,ministopMode:ministopMode,mujiMode:mujiMode,oliveMode:oliveMode,jrMode:jrMode,qpMode:qpMode,mufgMode:mufgMode});
+    // 条件モードは、その特典を持つカードが今の候補に含まれる時だけ表示する（UI整理）
+    var candIds={};a.cardResults.forEach(function(c){candIds[c.card.id]=true;});
+    [["ministopModeWrap","aeon_card_waon"],["mujiModeWrap","muji_card_visa"],["oliveModeWrap","olive_flexible_pay_credit"],["jrModeWrap","jal_suica_club_a_gold"],["qpModeWrap","saison_pearl_amex"],["mufgModeWrap","mufg_card"]].forEach(function(m){var el=document.getElementById(m[0]);if(el)el.classList.toggle("hide",!candIds[m[1]]);});
 
     var ministopTail=ministopMode==="aeonpay_store_weekend"?"・ミニストップAEON Pay店頭5%":ministopMode==="aeonpay_mobile_order_weekend"?"・ミニストップAEON Payモバイル注文10%":"";
     var tail=(paymentType==="debit"?"・デビットのみ":paymentType==="credit"?"・クレジットのみ":"")+ministopTail+(freeOnly?"・利用条件込みで年会費無料":"")+(studentEligible?"・学生向け可":"")+(pref?"・"+pref:"");
