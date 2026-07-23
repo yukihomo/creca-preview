@@ -403,7 +403,7 @@
     ["スーパー",["イオン","まいばす","西友","ライフ","マルエツ","業務スーパー","サミット","ヨーカドー","スーパー","マックスバリュ","肉のハナマサ","ハナマサ","オーケー","ダイエー"]],
     ["ドラッグストア",["マツキヨ","マツモトキヨシ","ウエルシア","サンドラッグ","ツルハ","ココカラ","ドラッグ","スギ薬局"]],
     ["外食",["スタバ","スターバックス","マクドナルド","マック","ドトール","居酒屋","レストラン","食堂","カフェ","すき家","吉野家","ラーメン","サイゼ","ガスト","松屋","モス","ケンタッキー","kfc","タリーズ","スシロー","くら寿司","はま寿司","バーミヤン","ジョナサン","丸亀","幸楽苑","ミスド","ミスタードーナツ","マック"]],
-    ["ネット通販",["amazon","アマゾン","楽天市場","楽天","ヨドバシ.com","ヨドバシ","メルカリ","zozo","ネット通販","qoo10","yahoo!ショッピング","yahoo","ヤフー","aliexpress","アリエク","shein","シーイン","ユニクロ","uniqlo","ジーユー"]],
+    ["ネット通販",["amazon","アマゾン","楽天市場","楽天","ヨドバシ.com","ヨドバシ","ビックカメラ","biccamera","メルカリ","zozo","ネット通販","qoo10","yahoo!ショッピング","yahoo","ヤフー","aliexpress","アリエク","shein","シーイン","ユニクロ","uniqlo","ジーユー"]],
     ["交通",["jr","メトロ","私鉄","suica","pasmo","icoca","タクシー","バス","航空","ana","jal","新幹線","交通","電車","タッチ決済乗車","東急","小田急","京王","京急","西武","東武","相鉄","南海","名鉄","近鉄","阪急","阪神","つくば"]],
     ["携帯・通信",["ドコモ","docomo","au","ソフトバンク","softbank","楽天モバイル","povo","ahamo","uq","携帯","通信","光回線","nuro"]],
     ["公共料金",["電力","電気","ガス","水道","公共","でんき"]],
@@ -435,6 +435,10 @@
     "dポイント":{yen:1.0,note:"1pt=1円相当として比較"},
     "グローバルポイント":{yen:5.0,note:"1pt=5円相当の利用方法で比較"},
     "WAON POINT":{yen:1.0,note:"1pt=1円相当として比較"},
+    "JRE POINT":{yen:1.0,note:"1pt=1円相当（Suicaに等価チャージ）"},
+    "TOKYU POINT":{yen:1.0,note:"1pt=1円相当（東急）"},
+    "小田急ポイント":{yen:1.0,note:"1pt=1円相当（小田急）"},
+    "ビックポイント":{yen:1.0,note:"1pt=1円相当（ビックカメラ）"},
     "ゴールドポイント":{yen:1.0,note:"1pt=1円相当（ヨドバシ等）"},
     "メルカリポイント":{yen:1.0,note:"1pt=1円相当（メルカリ）"},
     "PayPayポイント":{yen:1.0,note:"1pt=1円相当として比較"},
@@ -483,7 +487,15 @@
     {id:"neobank_debit_mastercard",name:"住信SBIネット銀行デビットカード（Mastercard）",cardType:"debit",reward:"スマプロポイント",note:"即時引落・通常0.8%・公共料金等0.3%・年会費無料",base:0.008,fee:0,rates:{"公共料金":0.003},merchants:{},eligibility:"住信SBIネット銀行の対象支店口座が必要。税金・公共料金・鉄道等は0.3%",source:"https://www.netbk.co.jp/contents/lineup/debitcard/support-flow/point/"},
     {id:"sony_bank_wallet",name:"Sony Bank WALLET",cardType:"debit",reward:"現金キャッシュバック",note:"即時引落・通常0.5%・年会費無料",base:0.005,fee:0,rates:{},merchants:{},eligibility:"ソニー銀行口座が必要。Club Sのステージなし0.5%で比較（上位ステージは自動加算しない）",source:"https://sonybank.jp/products/sbw/08.html"},
     {id:"gmo_aozora_visa_debit",name:"GMOあおぞらネット銀行 Visaデビット",cardType:"debit",reward:"現金キャッシュバック",note:"即時引落・通常0.6%・公共料金等0.3%・年会費無料",base:0.006,fee:0,rates:{"公共料金":0.003},merchants:{},eligibility:"GMOあおぞらネット銀行口座が必要。カスタマーステージの最低率0.6%で比較。税金・公共料金等は0.3%",source:"https://gmo-aozora.com/priv/service/cashback.html"},
-    {id:"lawson_ponta_plus",name:"ローソンPontaプラス",reward:"Pontaポイント",note:"通常1.0%・ローソン最大6%（条件）・OK/松屋等5%・年会費無料",base:0.010,fee:0,rates:{},merchants:{},eligibility:"年会費無料（三菱UFJニコス発行・Pontaポイント）。一般加盟店1%（200円2P）。ローソンは常時1%・16-24時2%・毎月10日20日はローソンアプリでエントリー時3%（16-24時6%）。OK・松屋などの対象店は最大5%（対象決済・条件つき）。高還元は「ローソンPontaプラス条件」で明示選択した時だけ加算",source:"https://www.lawsonbank.jp/lp/lp_credit.html"}
+    {id:"lawson_ponta_plus",name:"ローソンPontaプラス",reward:"Pontaポイント",note:"通常1.0%・ローソン最大6%（条件）・OK/松屋等5%・年会費無料",base:0.010,fee:0,rates:{},merchants:{},eligibility:"年会費無料（三菱UFJニコス発行・Pontaポイント）。一般加盟店1%（200円2P）。ローソンは常時1%・16-24時2%・毎月10日20日はローソンアプリでエントリー時3%（16-24時6%）。OK・松屋などの対象店は最大5%（対象決済・条件つき）。高還元は「ローソンPontaプラス条件」で明示選択した時だけ加算",source:"https://www.lawsonbank.jp/lp/lp_credit.html"},
+    {id:"jre_card",name:"JRE CARD（Suica付）",reward:"JRE POINT",note:"通常0.5%・駅ビル3.5%・Suicaチャージ1.5%・年会費524円（初年度無料）",base:0.005,fee:524,rates:{},merchants:{},eligibility:"年会費524円（初年度無料）。アトレ・エキュート・シャポー・ビーンズ・ペリエ・nonowa等のJRE CARD優待店で3.5%。モバイルSuica/オートチャージで1.5%。JRE POINTはSuicaに1pt=1円",source:"https://www.jreast.co.jp/card/first/jrecard.html"},
+    {id:"biccamera_suica",name:"ビックカメラSuicaカード",reward:"JRE POINT",note:"通常1.0%・ビックカメラ最大11.5%・Suicaチャージ1.5%・実質無料",base:0.010,fee:0,inactivityFee:524,inactivityFeeLabel:"前年に1回以上利用で翌年無料",rates:{},merchants:{},eligibility:"初年度無料・前年1回以上の利用で翌年無料（未利用時524円）。ビックカメラはカード決済で10%、Suica併用で最大11.5%。モバイルSuica/チャージで1.5%。一般加盟店1.0%（ビックポイント＋JRE POINT）",source:"https://kakaku.com/card/item.asp?id=040004"},
+    {id:"tokyu_card",name:"TOKYU CARD ClubQ JMB PASMO",reward:"TOKYU POINT",note:"通常0.5%・東急百貨店3%・PASMOオートチャージ1%・年会費1,100円（初年度無料）",base:0.005,fee:1100,rates:{},merchants:{},eligibility:"年会費1,100円（初年度無料）。東急百貨店3%（食品/レストラン1.5%）、東急グループ・提携店最大10%。PASMOオートチャージ1%。TOKYU POINT",source:"https://www.topcard.co.jp/card/jmbpasmo.html"},
+    {id:"op_credit",name:"OPクレジット（小田急）",reward:"小田急ポイント",note:"通常0.5%・小田急百貨店最大10%・小田急線PASMO・実質無料",base:0.005,fee:0,rates:{},merchants:{},eligibility:"初年度無料・年1回利用で翌年無料。小田急百貨店4〜12%、小田急ポイントサービス加盟店最大10%。PASMOオートチャージ対応。小田急ポイント",source:"https://manekai.ameba.jp/creditcard/odakyu-card/"},
+    {id:"maruetsu_card",name:"マルエツカード",reward:"WAON POINT",note:"通常0.5%・マルエツ/イオン系1%・日曜5%OFF・年会費無料",base:0.005,fee:0,rates:{},merchants:{},eligibility:"年会費無料（イオンカード系）。マルエツ・イオングループ対象店は1%（WAON POINT2倍）。毎週日曜クレジット払いで本体価格5%OFF、毎月1日・第3金曜はポイント5倍（条件つきで自動計算しない）",source:"https://www.maruetsu.co.jp/card/"},
+    {id:"welcia_card",name:"ウエルシアカード",reward:"WAON POINT",note:"通常0.5%・ウエルシア最大2.5%・イオン系1%・年会費無料",base:0.005,fee:0,rates:{},merchants:{},eligibility:"年会費無料（イオンカード系）。ウエルシアグループはカード提示＋クレジットで最大2.5%。イオングループ対象店1%。毎月10日クレジット10%は条件つきで自動計算しない",source:"https://adviser-navi.co.jp/card/column/2660/"},
+    {id:"view_standard",name:"ビューカード スタンダード",reward:"JRE POINT",note:"通常0.5%・Suicaチャージ1.5%・年会費524円",base:0.005,fee:524,rates:{},merchants:{},eligibility:"年会費524円。モバイルSuica/オートチャージ・定期券購入で1.5%。JRE POINTはSuicaに1pt=1円",source:"https://www.jreast.co.jp/card/"},
+    {id:"jcb_card_w_plus_l",name:"JCB カード W plus L",reward:"J-POINT",note:"女性向け・通常1.0%・年会費無料",base:0.010,fee:0,rates:{},merchants:{},eligibility:"39歳までに入会（40歳以降も無料）。JCB CARD Wと同率の通常1.0%＋女性向け保険・優待（LINDAリーグ）。優待店（J-POINTパートナー）の上乗せは条件確認",source:"https://www.jcb.co.jp/ordercard/kojin_card/jcb_card_w.html"}
   ];
 
   function isMujiMerchant(name){var n=(name||"").toString().toLowerCase();return n.indexOf("無印良品")!==-1||n.indexOf("muji")!==-1;}
@@ -516,8 +528,8 @@
     {cards:["olive_flexible_pay_credit"], category:"交通", exclude:["チャージ","pasmo","suica","icoca"], modeParam:"oliveMode", modeRates:{tap_target:0.08}, src:"smbc-card タッチ決済乗車8%（IC/チャージ除く）"},
     {cards:["mufg_card"], storeFn:isMufgMerchant, modeParam:"mufgMode", modeRates:{tokuten:0.07}, cap:50000, src:"cr.mufg.jp 対象店7%（月5万上限）"},
     {cards:["jal_suica_club_a_gold"], stores:["jr","ジェイアール","えきねっと","ekinet","suica","スイカ","新幹線","モバイルsuica"], modeParam:"jrMode", modeRates:{ekinet:0.10, mobile_suica:0.015}, src:"jreast えきねっと/モバイルSuica（JR限定）"},
-    {cards:["jcb_card_w","jcb_card_s"], category:"交通", modeParam:"transitMode", modeRates:{jcb_touch:0.10}, src:"JCBタッチ決済乗車10%（約190事業者・2027-05-15）"},
-    {cards:["jcb_card_w","jcb_card_s"], storeFn:isJcbYuutai, rate:0.10, src:"no-genkin/JCB J-POINTパートナー優待10%（ガスト・すき家・吉野家・スタバ等・要登録/対象決済）"},
+    {cards:["jcb_card_w","jcb_card_s","jcb_card_w_plus_l"], category:"交通", modeParam:"transitMode", modeRates:{jcb_touch:0.10}, src:"JCBタッチ決済乗車10%（約190事業者・2027-05-15）"},
+    {cards:["jcb_card_w","jcb_card_s","jcb_card_w_plus_l"], storeFn:isJcbYuutai, rate:0.10, src:"no-genkin/JCB J-POINTパートナー優待10%（ガスト・すき家・吉野家・スタバ等・要登録/対象決済）"},
     {cards:["saison_pearl_amex"], allStores:true, modeParam:"qpMode", modeRates:{quicpay:0.02}, cap:25000, src:"セゾンパールQuicPay2%（年30万=月2.5万上限）"},
     {cards:["yodobashi_gold_plus"], stores:["ヨドバシ","yodobashi"], rate:0.11, src:"goldpoint.co.jp ヨドバシ11%"},
     {cards:["amazon_mastercard"], stores:["amazon","アマゾン"], rate:0.02, src:"Amazon Mastercard Amazon2%（プライム）"},
@@ -525,7 +537,16 @@
     {cards:["paypay_card"], stores:["yahoo","ヤフー"], rate:0.05, src:"PayPayカード Yahoo!ショッピング5%"},
     {cards:["dcard_gold"], stores:["ドコモ","docomo"], rate:0.10, src:"dカードGOLD ドコモ料金10%"},
     {cards:["lawson_ponta_plus"], stores:["ローソン","ナチュラルローソン","ローソンストア100"], modeParam:"lawsonMode", modeRates:{evening:0.02, day1020:0.03, day1020_evening:0.06}, src:"lawsonbank ローソンPontaプラス（時間帯・10日20日エントリー）"},
-    {cards:["lawson_ponta_plus"], storeFn:isMufgMerchant, exclude:["ローソン","セブン","ミニストップ"], modeParam:"lawsonMode", modeRates:{taisho5:0.05}, src:"lawsonbank 対象店5%（OK・松屋等・対象決済）"}
+    {cards:["lawson_ponta_plus"], storeFn:isMufgMerchant, exclude:["ローソン","セブン","ミニストップ"], modeParam:"lawsonMode", modeRates:{taisho5:0.05}, src:"lawsonbank 対象店5%（OK・松屋等・対象決済）"},
+    {cards:["jre_card","view_standard","biccamera_suica"], stores:["モバイルsuica","suicaチャージ","suicaオートチャージ","オートチャージ"], rate:0.015, src:"ビューカード系 モバイルSuica/チャージ1.5%"},
+    {cards:["jre_card"], stores:["アトレ","エキュート","ecute","シャポー","ビーンズ","ペリエ","nonowa","駅ビル"], rate:0.035, src:"JRE CARD優待店3.5%（アトレ等）"},
+    {cards:["biccamera_suica"], stores:["ビックカメラ","biccamera","コジマ","ソフマップ"], rate:0.10, src:"ビックカメラ カード決済10%（Suica併用最大11.5%）"},
+    {cards:["tokyu_card"], stores:["東急百貨店"], rate:0.03, src:"TOKYU CARD 東急百貨店3%"},
+    {cards:["tokyu_card"], stores:["東急ストア","東急線","pasmoオートチャージ"], rate:0.01, src:"TOKYU CARD 東急ストア/PASMOオートチャージ1%"},
+    {cards:["op_credit"], stores:["小田急"], rate:0.05, src:"OPクレジット 小田急百貨店/加盟店（最大10%）"},
+    {cards:["maruetsu_card","welcia_card"], storeFn:isAeonGroup, rate:0.01, src:"イオングループ対象店1%（WAON POINT2倍）"},
+    {cards:["maruetsu_card"], stores:["マルエツ","maruetsu"], rate:0.01, src:"マルエツ1%（WAON POINT2倍）"},
+    {cards:["welcia_card"], stores:["ウエルシア","welcia","ハックドラッグ","ダックス"], rate:0.025, src:"ウエルシアグループ最大2.5%"}
   ];
   // 特約店テーブルを引いて {rate(名目・÷rewardYen済), cap, base} を返す（該当なしはnull）。最初に一致した行を採用。
   function lookupTokuten(card,row,modes){
