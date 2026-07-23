@@ -508,6 +508,7 @@
     if(card.id==="amazon_mastercard"&&(n.indexOf("amazon")!==-1||n.indexOf("アマゾン")!==-1))return 0.02;
     if(card.id==="rakuten_card"&&n.indexOf("楽天市場")!==-1)return 0.03;
     if(card.id==="paypay_card"&&(n.indexOf("yahoo")!==-1||n.indexOf("ヤフー")!==-1))return 0.05;
+    if(card.id==="dcard_gold"&&(n.indexOf("ドコモ")!==-1||n.indexOf("docomo")!==-1))return 0.10;
     if(card.id==="olive_flexible_pay_credit"&&oliveMode==="tap_target"&&isOliveMerchant(n))return 0.08;
     for(var k in card.merchants){if(n.indexOf(k.toLowerCase())!==-1)return card.merchants[k];}
     return null;
@@ -916,6 +917,7 @@
     "スーパー":[["イオン／マックスバリュ","イオン"],["まいばすけっと","まいばす"],["肉のハナマサ","肉のハナマサ"],["オーケー","オーケー"],["業務スーパー","業務スーパー"],["その他スーパー","スーパー"]],
     "ネット通販":[["Amazon","Amazon"],["楽天市場","楽天市場"],["Yahoo!ショッピング","yahoo"],["ヨドバシ","ヨドバシ"],["メルカリ","メルカリ"],["その他ネット","ネット通販"]],
     "交通":[["JR乗車","JR"],["東急","東急"],["京王","京王"],["京急","京急"],["東武","東武"],["西武","西武"],["南海","南海"],["その他私鉄・交通","交通"]],
+    "携帯・通信":[["ドコモ","ドコモ"],["au","au"],["ソフトバンク","ソフトバンク"],["楽天モバイル","楽天モバイル"],["その他通信","通信"]],
     "公共料金":[["電気","電気"],["ガス","ガス"],["水道（クレカ不可・現金）","水道"],["その他公共料金","公共料金"]]
   };
   function subInp(id,label){return '<div class="mfield"><label for="'+id+'">'+esc(label)+'</label><div class="inp"><span class="yen">¥</span><input id="'+id+'" type="number" inputmode="numeric" min="0" step="100" placeholder="0"></div></div>';}
