@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="light">
-<title>クレカ還元試算 v19</title>
+<title>あなたに最適の一枚は？ ｜ クレカ還元診断</title>
 </head>
 <body>
 <style>
@@ -163,9 +163,9 @@
 <div class="wrap"><div class="shell">
 
   <header class="top">
-    <p class="eyebrow">v19 / official-base-rate prototype</p>
-    <h1>家計簿で、クレカ還元を試算</h1>
-    <p class="lede">1か月の支出から、<strong>公式情報で確認した実在カードの通常還元</strong>を比較します。年会費・学生条件・公共料金などの確認済み例外は反映し、<strong>特約店・アプリ設定・キャンペーンの上乗せは自動加算しません</strong>。</p>
+    <p class="eyebrow">クレカ1枚えらび診断</p>
+    <h1>あなたに最適の一枚は？</h1>
+    <p class="lede">ふだんの支出を入れるだけで、<strong>あなたにいちばん得なクレジットカード1枚</strong>を診断します。実在カードの通常還元で比較し、対象店タッチ決済などの<strong>確認できた特典は選ぶと反映</strong>（サンプル要監修）。使い分けたい人は「複数枚」も選べます。</p>
     <span class="privacy"><span class="dot"></span>データはこのブラウザ内だけで処理されます（外部送信なし）</span>
   </header>
 
@@ -231,7 +231,7 @@
         <select id="mujiMode" aria-label="MUJI Cardの無印良品特典"><option value="">通常（店名一致だけでは特典を加算しない）</option><option value="muji_card_or_passport_pay">MUJI Card払い／MUJI passport Pay（2.5%）</option><option value="other_smartphone_payment">他のスマホ決済（1.5%）</option></select>
       </span>
       <span class="opt hide" id="oliveModeWrap">Olive対象店
-        <select id="oliveMode" aria-label="Oliveの対象コンビニ・飲食店8%"><option value="">通常（0.5%）</option><option value="tap_target">対象コンビニ・飲食店でスマホのタッチ決済（8%）</option></select>
+        <select id="oliveMode" aria-label="Oliveの対象コンビニ・飲食店8%"><option value="">通常（0.5%）</option><option value="tap_target">対象コンビニ・飲食店＋対象鉄道・バスのスマホタッチ決済（8%）</option></select>
       </span>
       <span class="opt hide" id="jrModeWrap">JR/Suica条件（JALカードSuicaゴールド）
         <select id="jrMode" aria-label="JALカードSuicaのJR特典"><option value="">通常（マイル）</option><option value="mobile_suica">モバイルSuicaチャージ（1.5%）</option><option value="ekinet">えきねっとで発券（新幹線・乗車券）（10%）</option></select>
@@ -469,8 +469,10 @@
   }
   // 支払方法を確認したときだけ効く特別レート。JRE POINT/QuicPayはVポイント等と別通貨なので、
   // 目的の還元「率（円価値）」を rewardYen で割って注入し、×rewardYen 後に正しい%になるようにする。
-  function specialRate(card,row,jrMode,qpMode,mufgMode,transitMode){
+  function specialRate(card,row,oliveMode,jrMode,qpMode,mufgMode,transitMode){
     var n=(row.name||"").toString().toLowerCase();
+    // Oliveのスマホタッチ決済乗車は対象鉄道・バス（私鉄含む）で8%。対象店タッチ8%をONにしたら交通も8%扱い。
+    if(card.id==="olive_flexible_pay_credit"&&oliveMode==="tap_target"&&row.category==="交通")return {rate:0.08/rewardYen(card),cap:null,base:card.base};
     if(card.id==="jal_suica_club_a_gold"){
       // JR利用のみ対象（私鉄は対象外）。交通カテゴリ一括ではなくJR系キーワードで判定。
       var isJr=(n.indexOf("jr")!==-1||n.indexOf("ジェイアール")!==-1||n.indexOf("えきねっと")!==-1||n.indexOf("ekinet")!==-1||n.indexOf("suica")!==-1||n.indexOf("スイカ")!==-1||n.indexOf("新幹線")!==-1||n.indexOf("モバイルsuica")!==-1);
@@ -486,7 +488,7 @@
   }
   // 1明細あたりの名目率（割当判断用・上限は無視）
   function nominalRate(card,row,condOn,ministopMode,mujiMode,oliveMode,jrMode,qpMode,mufgMode,transitMode){
-    var sp=specialRate(card,row,jrMode,qpMode,mufgMode,transitMode);
+    var sp=specialRate(card,row,oliveMode,jrMode,qpMode,mufgMode,transitMode);
     if(sp!=null)return sp.rate;
     var mr=merchantRate(card,row.name,ministopMode,mujiMode,oliveMode,jrMode,qpMode,mufgMode,transitMode);
     if(mr!=null)return mr;
@@ -501,7 +503,7 @@
   function cardMonthlyPoints(card,rows,condOn,ministopMode,mujiMode,oliveMode,jrMode,qpMode,mufgMode,transitMode){
     var capUsed={},spUsed={},total=0;
     rows.forEach(function(row){
-      var sp=specialRate(card,row,jrMode,qpMode,mufgMode,transitMode);
+      var sp=specialRate(card,row,oliveMode,jrMode,qpMode,mufgMode,transitMode);
       if(sp!=null){var scap=(sp.cap!=null?sp.cap:Infinity),sused=spUsed[card.id]||0;var shi=Math.max(0,Math.min(row.amount,scap-sused));total+=shi*sp.rate+(row.amount-shi)*sp.base;spUsed[card.id]=sused+shi;return;}
       var mr=merchantRate(card,row.name,ministopMode,mujiMode,oliveMode,jrMode,qpMode,mufgMode,transitMode);
       if(mr!=null){total+=row.amount*mr;return;}
