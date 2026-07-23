@@ -536,7 +536,8 @@
     {id:"olive_platinum_preferred",name:"Oliveフレキシブルペイ プラチナプリファード",reward:"Vポイント",note:"通常1.0%・年会費33,000円（積立・継続特典）",base:0.010,fee:33000,rates:{},merchants:{},eligibility:"年会費33,000円。基本1.0%。年間100万円ごとに継続ボーナス、SBI証券クレカ積立の高還元等はツール対象外。対象店タッチ7%等は条件確認",source:"https://www.smbc.co.jp/kojin/olive-account/platinum-preferred/"},
     {id:"epos_platinum",name:"エポスプラチナカード",reward:"エポスポイント",note:"通常0.5%・選べる3店・マルイ1%・年会費30,000円（招待20,000円）",base:0.005,fee:30000,rates:{},merchants:{},eligibility:"年会費30,000円（招待は20,000円）。通常0.5%、マルイ/モディ1%。選べるポイントアップショップ・年間ボーナスポイントは条件つきで自動計算しない。プライオリティパス付帯",source:"https://www.eposcard.co.jp/platinum/main.html"},
     {id:"paypay_gold",name:"PayPayカード ゴールド",reward:"PayPayポイント",note:"通常1.5%・Yahoo!最大7%・SB/ワイモバ料金最大10%・年会費11,000円",base:0.015,fee:11000,rates:{},merchants:{},requiresConfirmation:true,eligibility:"年会費11,000円。基本1.5%。Yahoo!ショッピング/LOHACO最大7%。ソフトバンク/ワイモバイル料金は最大10%（条件つき）。空港ラウンジ無料",source:"https://paypay.ne.jp/card-gold/"},
-    {id:"aeon_select",name:"イオンカードセレクト",reward:"WAON POINT",note:"通常0.5%・イオン系1%・WAONオートチャージ二重取り・年会費無料",base:0.005,fee:0,rates:{},merchants:{},eligibility:"年会費無料（イオン銀行キャッシュカード+クレジット+WAON一体）。イオングループ対象店1%。WAONオートチャージ＋WAON払いで実質1.5%。お客さま感謝デー5%OFF等",source:"https://www.aeon.co.jp/card/lineup/select/"}
+    {id:"aeon_select",name:"イオンカードセレクト",reward:"WAON POINT",note:"通常0.5%・イオン系1%・WAONオートチャージ二重取り・年会費無料",base:0.005,fee:0,rates:{},merchants:{},eligibility:"年会費無料（イオン銀行キャッシュカード+クレジット+WAON一体）。イオングループ対象店1%。WAONオートチャージ＋WAON払いで実質1.5%。お客さま感謝デー5%OFF等",source:"https://www.aeon.co.jp/card/lineup/select/"},
+    {id:"rakuten_pink_card",name:"楽天PINKカード",reward:"楽天ポイント",note:"女性向け・通常1.0%・楽天市場3%・年会費無料",base:0.010,fee:0,rates:{},merchants:{},eligibility:"年会費無料。楽天カードと同じ通常1.0%・楽天市場3%（SPU基本）。女性向けの選べる優待（楽天グループ/ライフスタイル）と任意の楽天PINKサポート（月額の女性向け保険）が付帯",source:"https://www.rakuten-card.co.jp/card/rakuten-pink-card/"}
   ];
 
   function isMujiMerchant(name){var n=(name||"").toString().toLowerCase();return n.indexOf("無印良品")!==-1||n.indexOf("muji")!==-1;}
@@ -576,7 +577,7 @@
     {cards:["saison_pearl_amex"], allStores:true, modeParam:"qpMode", modeRates:{quicpay:0.02}, cap:25000, src:"セゾンパールQuicPay2%（年30万=月2.5万上限）"},
     {cards:["yodobashi_gold_plus"], stores:["ヨドバシ","yodobashi"], rate:0.11, src:"goldpoint.co.jp ヨドバシ11%"},
     {cards:["amazon_mastercard"], stores:["amazon","アマゾン"], rate:0.02, src:"Amazon Mastercard Amazon2%（プライム）"},
-    {cards:["rakuten_card"], stores:["楽天市場"], rate:0.03, src:"楽天カード 楽天市場3%（SPU基本）"},
+    {cards:["rakuten_card","rakuten_pink_card"], stores:["楽天市場"], rate:0.03, src:"楽天カード/PINK 楽天市場3%（SPU基本）"},
     {cards:["paypay_card"], stores:["yahoo","ヤフー"], rate:0.05, src:"PayPayカード Yahoo!ショッピング5%"},
     {cards:["dcard_gold"], stores:["ドコモ","docomo"], rate:0.10, src:"dカードGOLD ドコモ料金10%"},
     {cards:["dcard_platinum"], stores:["ドコモ","docomo","ahamo"], rate:0.10, src:"dカードPLATINUM ドコモ料金10〜20%（下限10%計上）"},
