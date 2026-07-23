@@ -216,7 +216,7 @@
         <select id="maxK"><option value="2">2枚</option><option value="3" selected>3枚</option><option value="99">制限なし</option></select>
       </span>
       <span class="opt">貯めたいポイント・マイル
-        <select id="prefReward"><option value="">こだわらない（金額最大）</option><option value="__miles__">マイル（JAL・ANA・ソラシド）</option></select>
+        <select id="prefReward"><option value="">こだわらない（金額最大）</option></select>
       </span>
       <span class="opt">1マイルの価値
         <select id="mileValue" aria-label="マイルの円換算価値"><option value="1">¥1.0</option><option value="1.5" selected>¥1.5</option><option value="2">¥2.0</option><option value="3">¥3.0</option></select>
@@ -229,6 +229,9 @@
       </span>
       <span class="opt">MUJI Card条件
         <select id="mujiMode" aria-label="MUJI Cardの無印良品特典"><option value="">通常（店名一致だけでは特典を加算しない）</option><option value="muji_card_or_passport_pay">MUJI Card払い／MUJI passport Pay（2.5%）</option><option value="other_smartphone_payment">他のスマホ決済（1.5%）</option></select>
+      </span>
+      <span class="opt">Olive対象店
+        <select id="oliveMode" aria-label="Oliveの対象コンビニ・飲食店8%"><option value="">通常（0.5%）</option><option value="tap_target">対象コンビニ・飲食店でスマホのタッチ決済（8%）</option></select>
       </span>
       <label class="chk"><input type="checkbox" id="freeChk">利用条件を満たせば年会費無料のカードだけ</label>
       <label class="chk"><input type="checkbox" id="condChk">利用条件を確認済みのカードも候補に含める</label>
@@ -383,9 +386,7 @@
     "スマプロポイント":{yen:1.0,note:"1pt=1円相当として比較"},
     "現金キャッシュバック":{yen:1.0,note:"1円=1円として比較"}
   };
-  function mileYen(){var el=document.getElementById("mileValue"),v=el?parseFloat(el.value):1.5;return isFinite(v)&&v>0?v:1.5;}
-  function isMileReward(reward){return !!(REWARDS[reward]&&REWARDS[reward].mile);}
-  function rewardYen(card){var r=REWARDS[card.reward];return r?(r.mile?mileYen():r.yen):1.0;}
+  function mileYen(){var el=document.getElementById("mileValue"),v=el?parseFloat(el.value):1.5;return isFinite(v)&&v>0?v:1.5;}  function rewardYen(card){var r=REWARDS[card.reward];return r?(r.mile?mileYen():r.yen):1.0;}
   function rewardNote(reward){var r=REWARDS[reward];return r&&r.mile?"1マイル="+yen(mileYen())+"で円換算":(r?r.note:"");}
 
   // rates: CSVカテゴリだけで判定できる確認済みの例外。merchants は店名だけで適用できる通常特典に限る。決済手段・曜日が必要なミニストップAEON Pay特典は明示選択時のみ上書きする。
@@ -396,7 +397,7 @@
     {id:"au_pay_card",name:"au PAY カード",reward:"Pontaポイント",note:"通常1.0%・年会費無料",base:0.010,fee:0,rates:{},merchants:{},eligibility:"ポイント加算対象外の利用分を除く",source:"https://qa.kddi-fs.com/faq/show/357?category_id=56&site_domain=1"},
     {id:"rakuten_card",name:"楽天カード",reward:"楽天ポイント",note:"通常1.0%・年会費無料",base:0.010,fee:0,rates:{},merchants:{},eligibility:"申込条件は公式で確認",source:"https://www.rakuten-card.co.jp/point/"},
     {id:"d_card",name:"dカード",reward:"dポイント",note:"通常1.0%・公共料金は0.5%",base:0.010,fee:0,rates:{"公共料金":0.005},merchants:{},eligibility:"年会費永年無料の一般カード",source:"https://dcard.docomo.ne.jp/st/dpoint_points/shopping/index.html"},
-    {id:"olive_flexible_pay_credit",name:"Oliveフレキシブルペイ（クレジットモード）",reward:"Vポイント",note:"通常0.5%・年会費無料",base:0.005,fee:0,rates:{},merchants:{},eligibility:"クレジットモードで利用",source:"https://www.smbc-card.com/olive_flexible_pay/card/index.jsp"},
+    {id:"olive_flexible_pay_credit",name:"Oliveフレキシブルペイ（クレジットモード）",reward:"Vポイント",note:"通常0.5%・対象店でスマホタッチ8%（確認時）・年会費無料",base:0.005,fee:0,rates:{},merchants:{},eligibility:"クレジットモードで利用",source:"https://www.smbc-card.com/olive_flexible_pay/card/index.jsp"},
     {id:"smbc_card_nl",name:"三井住友カード（NL）",reward:"Vポイント",note:"通常0.5%・年会費無料",base:0.005,fee:0,rates:{},merchants:{},eligibility:"満18歳以上（高校生を除く）。条件付き対象店還元は含めない",source:"https://www.smbc-card.com/nyukai/card/numberless.jsp"},
     {id:"mufg_card",name:"三菱UFJカード",reward:"グローバルポイント",note:"通常0.5%相当・年会費無料",base:0.001,fee:0,rates:{},merchants:{},eligibility:"18歳以上（高校生を除く）",source:"https://www.cr.mufg.jp/apply/card/mucard/index.html"},
     {id:"aeon_card_waon",name:"イオンカード（WAON一体型）",reward:"WAON POINT",note:"通常0.5%・ミニストップは確認時1%・年会費無料",base:0.005,fee:0,rates:{},merchants:{},eligibility:"一般カード。ミニストップの1%はイオンマークのカード払いまたは電子マネーWAONを確認した場合のみ。AEON Payの店頭/モバイルオーダー金土日特典も条件選択時のみ",source:"https://www.aeon.co.jp/card/lineup/aeoncardwaon/"},
@@ -417,8 +418,10 @@
   ];
 
   function isMujiMerchant(name){var n=(name||"").toString().toLowerCase();return n.indexOf("無印良品")!==-1||n.indexOf("muji")!==-1;}
+  // Olive対象のコンビニ・飲食店（公式・2026-02-01〜。ファミマ等は対象外）。スマホのタッチ決済確認時のみ8%。
+  function isOliveMerchant(name){var n=(name||"").toString().toLowerCase();return ["セブン","ローソン","ミニストップ","マクドナルド","モスバーガー","ケンタッキー","kfc","吉野家","サイゼ","ガスト","バーミヤン","ジョナサン","夢庵","しゃぶ葉","すき家","はま寿司","ココス","ドトール"].some(function(k){return n.indexOf(k.toLowerCase())!==-1;});}
   function merchantKeys(card){var keys=Object.keys(card.merchants||{});if(card.id==="muji_card_visa")keys.push("無印良品","muji");return keys;}
-  function merchantRate(card,name,ministopMode,mujiMode){
+  function merchantRate(card,name,ministopMode,mujiMode,oliveMode){
     if(!card.merchants)return null;
     var n=(name||"").toString().toLowerCase();
     if(card.id==="muji_card_visa"&&isMujiMerchant(n)){
@@ -431,12 +434,13 @@
       if(ministopMode==="aeonpay_store_weekend")return 0.05;
       if(ministopMode==="aeonpay_mobile_order_weekend")return 0.10;
     }
+    if(card.id==="olive_flexible_pay_credit"&&oliveMode==="tap_target"&&isOliveMerchant(n))return 0.08;
     for(var k in card.merchants){if(n.indexOf(k.toLowerCase())!==-1)return card.merchants[k];}
     return null;
   }
   // 1明細あたりの名目率（割当判断用・上限は無視）
-  function nominalRate(card,row,condOn,ministopMode,mujiMode){
-    var mr=merchantRate(card,row.name,ministopMode,mujiMode);
+  function nominalRate(card,row,condOn,ministopMode,mujiMode,oliveMode){
+    var mr=merchantRate(card,row.name,ministopMode,mujiMode,oliveMode);
     if(mr!=null)return mr;
     var r=card.rates[row.category];
     if(r==null)return card.base;
@@ -444,12 +448,12 @@
     if(r.cond&&!condOn)return card.base;
     return r.rate;
   }
-  function valueRate(card,row,condOn,ministopMode,mujiMode){return nominalRate(card,row,condOn,ministopMode,mujiMode)*rewardYen(card);}
+  function valueRate(card,row,condOn,ministopMode,mujiMode,oliveMode){return nominalRate(card,row,condOn,ministopMode,mujiMode,oliveMode)*rewardYen(card);}
   // カードが rows 群から得る月間“ポイント数”（対象店は上限なし・カテゴリ特典は月上限を追跡）
-  function cardMonthlyPoints(card,rows,condOn,ministopMode,mujiMode){
+  function cardMonthlyPoints(card,rows,condOn,ministopMode,mujiMode,oliveMode){
     var capUsed={},total=0;
     rows.forEach(function(row){
-      var mr=merchantRate(card,row.name,ministopMode,mujiMode);
+      var mr=merchantRate(card,row.name,ministopMode,mujiMode,oliveMode);
       if(mr!=null){total+=row.amount*mr;return;}
       var r=card.rates[row.category];
       if(r==null){total+=row.amount*card.base;return;}
@@ -462,7 +466,7 @@
     });
     return total;
   }
-  function cardValue(card,rows,condOn,ministopMode,mujiMode){return cardMonthlyPoints(card,rows,condOn,ministopMode,mujiMode)*rewardYen(card);}
+  function cardValue(card,rows,condOn,ministopMode,mujiMode,oliveMode){return cardMonthlyPoints(card,rows,condOn,ministopMode,mujiMode,oliveMode)*rewardYen(card);}
   // 年1回以上の利用があるカードは、未利用時だけ発生する手数料を差し引かない。
   function annualFee(card,hasAnnualUse){return card.fee+((card.inactivityFee&&!hasAnnualUse)?card.inactivityFee:0);}
   function feeLabel(card,hasAnnualUse){
@@ -567,28 +571,28 @@
   }
 
   function analyze(rows,opts){
-    var condOn=opts.condOn,maxK=opts.maxK,pref=opts.pref,freeOnly=opts.freeOnly,studentEligible=opts.studentEligible,paymentType=opts.paymentType||"all",ministopMode=opts.ministopMode||"",mujiMode=opts.mujiMode||"";
+    var condOn=opts.condOn,maxK=opts.maxK,pref=opts.pref,freeOnly=opts.freeOnly,studentEligible=opts.studentEligible,paymentType=opts.paymentType||"all",ministopMode=opts.ministopMode||"",mujiMode=opts.mujiMode||"",oliveMode=opts.oliveMode||"";
     var byCat={};CATS.forEach(function(c){byCat[c]=0;});
     var total=0;rows.forEach(function(r){byCat[r.category]+=r.amount;total+=r.amount;});
     var activeCats=CATS.filter(function(c){return byCat[c]>0;});
     var baseCard=CARDS[0];
     var baseAnnual=total*baseCard.base*12;
 
-    var cands=CARDS.filter(function(c){return matchesPaymentType(c,paymentType)&&(!pref||(pref==="__miles__"?isMileReward(c.reward):c.reward===pref))&&(!freeOnly||annualFee(c,true)===0)&&(!c.studentOnly||studentEligible)&&(!c.requiresConfirmation||condOn);});
+    var cands=CARDS.filter(function(c){return matchesPaymentType(c,paymentType)&&(!pref||c.reward===pref)&&(!freeOnly||annualFee(c,true)===0)&&(!c.studentOnly||studentEligible)&&(!c.requiresConfirmation||condOn);});
     if(!cands.length)cands=[baseCard];
 
-    var cardResults=cands.map(function(card){return {card:card,annualNet:cardValue(card,rows,condOn,ministopMode,mujiMode)*12-annualFee(card,true)};});
+    var cardResults=cands.map(function(card){return {card:card,annualNet:cardValue(card,rows,condOn,ministopMode,mujiMode,oliveMode)*12-annualFee(card,true)};});
 
     // multi: 明細ごとに名目還元率が最も高いカードへ割り当て、年額は上限込みで計算する。
     function setValue(set){
       var buckets={};set.forEach(function(c){buckets[c.name]=[];});
       rows.forEach(function(row){
         var bc=set[0],br=-Infinity;
-        set.forEach(function(card){var rr=valueRate(card,row,condOn,ministopMode,mujiMode);if(rr>br){br=rr;bc=card;}});
+        set.forEach(function(card){var rr=valueRate(card,row,condOn,ministopMode,mujiMode,oliveMode);if(rr>br){br=rr;bc=card;}});
         buckets[bc.name].push(row);
       });
       var val=0,used=[];
-      set.forEach(function(card){if(buckets[card.name].length){val+=cardValue(card,buckets[card.name],condOn,ministopMode,mujiMode)*12-annualFee(card,true);used.push(card);}});
+      set.forEach(function(card){if(buckets[card.name].length){val+=cardValue(card,buckets[card.name],condOn,ministopMode,mujiMode,oliveMode)*12-annualFee(card,true);used.push(card);}});
       return {val:val,used:used,buckets:buckets};
     }
 
@@ -599,9 +603,9 @@
       else{subsets(cands,maxK).forEach(function(set){var r=setValue(set);if(r.val>bestV){bestV=r.val;bestR=r;}});}
       best={cards:bestR.used,annualNet:bestV,buckets:bestR.buckets};
     }else{
-      var s=cands.slice().sort(function(a,b){return (cardValue(b,rows,condOn,ministopMode,mujiMode)*12-annualFee(b,true))-(cardValue(a,rows,condOn,ministopMode,mujiMode)*12-annualFee(a,true));})[0];
+      var s=cands.slice().sort(function(a,b){return (cardValue(b,rows,condOn,ministopMode,mujiMode,oliveMode)*12-annualFee(b,true))-(cardValue(a,rows,condOn,ministopMode,mujiMode,oliveMode)*12-annualFee(a,true));})[0];
       var bk={};bk[s.name]=rows;
-      best={cards:[s],annualNet:cardValue(s,rows,condOn,ministopMode,mujiMode)*12-annualFee(s,true),buckets:bk};
+      best={cards:[s],annualNet:cardValue(s,rows,condOn,ministopMode,mujiMode,oliveMode)*12-annualFee(s,true),buckets:bk};
     }
 
     // 明細→担当カード
@@ -616,7 +620,7 @@
         if(row.category!==c)return;
         var card=rowCard.get(row)||best.cards[0];
         byCard[card.name]=(byCard[card.name]||0)+row.amount;
-        gain+=(valueRate(card,row,condOn,ministopMode,mujiMode)-baseCard.base*rewardYen(baseCard))*row.amount*12;
+        gain+=(valueRate(card,row,condOn,ministopMode,mujiMode,oliveMode)-baseCard.base*rewardYen(baseCard))*row.amount*12;
       });
       var names=Object.keys(byCard);
       names.sort(function(x,y){return byCard[y]-byCard[x];});
@@ -628,7 +632,7 @@
     for(var disp in stores){
       var keys=Object.keys(stores[disp].keys);
       var bc=null,br=-Infinity;
-      cands.forEach(function(card){keys.forEach(function(k){var rr=valueRate(card,{name:k,category:categorize(k)},condOn,ministopMode,mujiMode);if(rr>br){br=rr;bc=card;}});});
+      cands.forEach(function(card){keys.forEach(function(k){var rr=valueRate(card,{name:k,category:categorize(k)},condOn,ministopMode,mujiMode,oliveMode);if(rr>br){br=rr;bc=card;}});});
       storeBest.push({store:disp,amt:stores[disp].amt,card:bc,rate:br});
     }
     storeBest.sort(function(a,b){return b.amt-a.amt;});
@@ -650,10 +654,11 @@
     var paymentType=document.getElementById("paymentType").value;
     var ministopMode=document.getElementById("ministopMode").value;
     var mujiMode=document.getElementById("mujiMode").value;
-    var a=analyze(lastRows,{condOn:condOn,maxK:maxK,pref:pref,freeOnly:freeOnly,studentEligible:studentEligible,paymentType:paymentType,ministopMode:ministopMode,mujiMode:mujiMode});
+    var oliveMode=document.getElementById("oliveMode").value;
+    var a=analyze(lastRows,{condOn:condOn,maxK:maxK,pref:pref,freeOnly:freeOnly,studentEligible:studentEligible,paymentType:paymentType,ministopMode:ministopMode,mujiMode:mujiMode,oliveMode:oliveMode});
 
     var ministopTail=ministopMode==="aeonpay_store_weekend"?"・ミニストップAEON Pay店頭5%":ministopMode==="aeonpay_mobile_order_weekend"?"・ミニストップAEON Payモバイル注文10%":"";
-    var tail=(paymentType==="debit"?"・デビットのみ":paymentType==="credit"?"・クレジットのみ":"")+ministopTail+(freeOnly?"・利用条件込みで年会費無料":"")+(studentEligible?"・学生向け可":"")+(pref?"・"+(pref==="__miles__"?"マイル":pref):"");
+    var tail=(paymentType==="debit"?"・デビットのみ":paymentType==="credit"?"・クレジットのみ":"")+ministopTail+(freeOnly?"・利用条件込みで年会費無料":"")+(studentEligible?"・学生向け可":"")+(pref?"・"+pref:"");
     if(mode==="single"){document.getElementById("heroLbl").textContent="この支出での最適な1枚"+tail;document.getElementById("heroHeadline").textContent=a.best.cards[0].name;}
     else if(a.best.cards.length===1){document.getElementById("heroLbl").textContent="複数枚OKでも、1枚に集約が最適（複数化の上乗せなし）"+tail;document.getElementById("heroHeadline").textContent=a.best.cards[0].name;}
     else{document.getElementById("heroLbl").textContent="最適な組み合わせ（"+a.best.cards.length+"枚で使い分け）"+tail;document.getElementById("heroHeadline").textContent="店舗・カテゴリごとに最適カードへ振り分け";}
@@ -666,7 +671,7 @@
     document.getElementById("statMonthly").textContent="月 "+yen(a.best.annualNet/12);
     var onlyCard=a.best.cards.length===1?a.best.cards[0]:null;
     if(onlyCard&&REWARDS[onlyCard.reward]&&REWARDS[onlyCard.reward].mile){
-      document.getElementById("statMiles").textContent=Math.floor(cardMonthlyPoints(onlyCard,lastRows,condOn,ministopMode,mujiMode)*12).toLocaleString("ja-JP")+" マイル";
+      document.getElementById("statMiles").textContent=Math.floor(cardMonthlyPoints(onlyCard,lastRows,condOn,ministopMode,mujiMode,oliveMode)*12).toLocaleString("ja-JP")+" マイル";
       document.getElementById("statMilesSub").textContent="1マイル="+yen(mileYen())+"で円換算・年会費差引は左に表示";
     }else{
       document.getElementById("statMiles").textContent="—";
@@ -819,6 +824,7 @@
   document.getElementById("paymentType").addEventListener("change",function(){if(lastRows)render();});
   document.getElementById("ministopMode").addEventListener("change",function(){if(lastRows)render();});
   document.getElementById("mujiMode").addEventListener("change",function(){if(lastRows)render();});
+  document.getElementById("oliveMode").addEventListener("change",function(){if(lastRows)render();});
   document.getElementById("studentChk").addEventListener("change",function(){if(lastRows)render();});
   document.getElementById("prefReward").addEventListener("change",function(){if(lastRows)render();});
   document.getElementById("mileValue").addEventListener("change",function(){if(lastRows)render();});
