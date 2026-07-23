@@ -362,7 +362,7 @@
           <li><strong>年会費無料フィルタあり。</strong> 初心者は年会費無料に絞れる。</li>
           <li><strong>キャンペーンは別試算。</strong> エントリー、対象外、上限、開催期間をこの試作だけで判定しません。下記の公式情報と利用時点の規約を確認してください。</li>
         </ul>
-        <p><strong>v20で参照した公式情報（2026-07-23確認）</strong></p>
+        <p><strong>v21で参照した公式情報（2026-07-23確認）</strong></p>
         <ul class="source-links">
           <li><a href="https://www.jcb.co.jp/promotion/ordercard/free_ws/index.html" target="_blank" rel="noopener noreferrer">JCB カード W</a>・<a href="https://recruit-card.jp/basic-card/" target="_blank" rel="noopener noreferrer">リクルートカード</a>・<a href="https://www.rakuten-card.co.jp/point/" target="_blank" rel="noopener noreferrer">楽天カード</a>・<a href="https://dcard.docomo.ne.jp/st/dpoint_points/shopping/index.html" target="_blank" rel="noopener noreferrer">dカード</a></li>
           <li><a href="https://www.orico.co.jp/creditcard/list/thepoint/" target="_blank" rel="noopener noreferrer">Orico Card THE POINT</a>・<a href="https://qa.kddi-fs.com/faq/show/357?category_id=56&amp;site_domain=1" target="_blank" rel="noopener noreferrer">au PAY カード</a>・<a href="https://www.smbc-card.com/nyukai/card/numberless.jsp" target="_blank" rel="noopener noreferrer">三井住友カード（NL）</a>・<a href="https://www.eposcard.co.jp/smp/aflt/index2.html" target="_blank" rel="noopener noreferrer">エポスカード</a></li>
@@ -390,7 +390,7 @@
       <p class="modalnote">※還元はサンプル/要監修の概算です。券面は仮デザイン（提携後に差し替え）。お申し込み前に各カード公式ページで最新の年会費・還元・条件をご確認ください。</p>
     </div>
   </div>
-  <footer class="foot">クライアントサイド v20・実カードの通常還元比較／特約店・キャンペーン・対象外条件は利用時点で要確認。</footer>
+  <footer class="foot">クライアントサイド v21・実カードの通常還元比較／特約店・キャンペーン・対象外条件は利用時点で要確認。</footer>
 
 </div></div>
 
@@ -440,6 +440,8 @@
     "小田急ポイント":{yen:1.0,note:"1pt=1円相当（小田急）"},
     "ビックポイント":{yen:1.0,note:"1pt=1円相当（ビックカメラ）"},
     "プラスポイント":{yen:1.0,note:"1pt=1円相当（出光apollostation）"},
+    "ダイナースリワード":{yen:1.0,note:"1pt=1円相当（交換先で変動）"},
+    "UCポイント":{yen:1.0,note:"1pt=1円相当（ギフト交換で最大1.2円）"},
     "ゴールドポイント":{yen:1.0,note:"1pt=1円相当（ヨドバシ等）"},
     "メルカリポイント":{yen:1.0,note:"1pt=1円相当（メルカリ）"},
     "PayPayポイント":{yen:1.0,note:"1pt=1円相当として比較"},
@@ -502,7 +504,19 @@
     {id:"ana_tome_pasmo",name:"ソラチカカード（ANA To Me CARD PASMO JCB）",reward:"ANAマイル",note:"200円=1マイル（0.5%）・東京メトロ乗車でメトポ・年会費2,200円（初年度無料）",base:0.005,fee:2200,rates:{},merchants:{},eligibility:"年会費2,200円（初年度無料）。基本200円=1マイル（1マイルコース）。2マイルコース（+年5,500円）で200円=2マイル（1.0%）。PASMOオートチャージで東京メトロ乗車・加盟店のメトロポイントが貯まりANAマイルへ移行可（自動計算しない）",source:"https://www.jcb.co.jp/ordercard/teikei/ana_tome.html"},
     {id:"epos_gold",name:"エポスゴールドカード",reward:"エポスポイント",note:"通常0.5%・選べる3倍店1%・年50万で永年無料",base:0.005,fee:5000,rates:{},merchants:{},eligibility:"年会費5,000円だが年50万円以上利用または招待で永年無料。選べるポイントアップショップ（最大3店）は1%。マルイ/モディ2倍。年100万で1万ボーナスP（実質最大約2%）は条件つきで自動計算しない",source:"https://www.eposcard.co.jp/beginner/gold.html"},
     {id:"saison_gold_premium",name:"SAISON GOLD Premium",reward:"永久不滅ポイント",note:"通常0.5%相当・コンビニ/カフェ最大5%・年100万で永年無料",base:0.001,fee:11000,rates:{},merchants:{},eligibility:"年会費11,000円だが年100万円以上利用で永年無料。セブン/ローソン/スタバ/珈琲館/カフェドクリエ/ベローチェ/マクドナルドは年間利用額に応じ2.5〜5%（15万未満2.5%・15〜30万4%・30万以上5%）。ツールは下限2.5%で計上。永久不滅ポイントは交換先で価値変動",source:"https://www.saisoncard.co.jp/creditcard/lineup/102/"},
-    {id:"dcard_gold_u",name:"dカード GOLD U",reward:"dポイント",note:"18〜29歳向け・通常1.0%・ドコモ料金5%・年会費3,300円（条件で実質無料）",base:0.010,fee:3300,rates:{},merchants:{},eligibility:"満18〜29歳（高校生除く）。年会費3,300円（対象ドコモ料金プラン等の条件で実質無料）。対象のドコモ利用料金1,000円ごとに5%。満30歳更新時にdカード GOLDへ自動変更",source:"https://dcard.docomo.ne.jp/st/dcard_goldu/index.html"}
+    {id:"dcard_gold_u",name:"dカード GOLD U",reward:"dポイント",note:"18〜29歳向け・通常1.0%・ドコモ料金5%・年会費3,300円（条件で実質無料）",base:0.010,fee:3300,rates:{},merchants:{},eligibility:"満18〜29歳（高校生除く）。年会費3,300円（対象ドコモ料金プラン等の条件で実質無料）。対象のドコモ利用料金1,000円ごとに5%。満30歳更新時にdカード GOLDへ自動変更",source:"https://dcard.docomo.ne.jp/st/dcard_goldu/index.html"},
+    {id:"jcb_gold",name:"JCBゴールド",reward:"J-POINT",note:"通常0.5%・優待店最大10%・年会費11,000円",base:0.005,fee:11000,rates:{},merchants:{},eligibility:"年会費11,000円（オンライン入会で初年度無料）。JCB ORIGINAL SERIES。J-POINTパートナー優待店で最大10%（要登録/対象決済）。空港ラウンジ等",source:"https://www.jcb.co.jp/ordercard/kojin_card/gold.html"},
+    {id:"jcb_gold_extage",name:"JCB GOLD EXTAGE",reward:"J-POINT",note:"20代限定・通常0.75%・優待店最大10%・年会費3,300円（初年度無料）",base:0.0075,fee:3300,rates:{},merchants:{},eligibility:"20〜29歳限定。年会費3,300円（初年度無料）。JCB ORIGINAL SERIES。通常0.75%（EXTAGE増量）、入会3か月は1.5%。J-POINTパートナー優待店で最大10%。5年後にJCBゴールドへ自動切替",source:"https://www.jcb.co.jp/promotion/ordercard/extagegold/"},
+    {id:"jcb_platinum",name:"JCBプラチナ",reward:"J-POINT",note:"通常0.5%・優待店最大10%・年会費27,500円",base:0.005,fee:27500,rates:{},merchants:{},eligibility:"年会費27,500円。JCB ORIGINAL SERIES。J-POINTパートナー優待店で最大10%。コンシェルジュ・プライオリティパス・グルメベネフィット等",source:"https://www.jcb.co.jp/ordercard/kojin_card/platinum.html"},
+    {id:"diners_club",name:"ダイナースクラブカード",reward:"ダイナースリワード",note:"通常1.0%・ETC/公共料金0.5%・年会費29,700円",base:0.010,fee:29700,rates:{"公共料金":0.005},merchants:{},eligibility:"年会費29,700円。100円1ポイント（1.0%）。ETC・公共料金は0.5%。リワードポイントは交換先で価値変動",source:"https://www.diners.co.jp/ja/card_list/dinersclub.html"},
+    {id:"uc_platinum",name:"UCプラチナカード",reward:"UCポイント",note:"通常1.0%・年会費16,500円・プライオリティパス",base:0.010,fee:16500,rates:{},merchants:{},eligibility:"年会費16,500円（プラチナ最安水準）。通常1.0%（UCギフト交換で最大1.2%）。プライオリティ・パス年6回無料等",source:"https://www2.uccard.co.jp/card/platinum/"},
+    {id:"view_gold",name:"ビューカード ゴールド",reward:"JRE POINT",note:"通常0.5%・Suicaチャージ1.5%・年会費11,000円",base:0.005,fee:11000,rates:{},merchants:{},eligibility:"年会費11,000円。モバイルSuica/オートチャージ1.5%。年間利用ボーナス・駅ビル優待・ラウンジ等。JRE POINTはSuicaに1pt=1円",source:"https://www.jreast.co.jp/card/first/viewcardgold/"},
+    {id:"au_pay_gold",name:"au PAY ゴールドカード",reward:"Pontaポイント",note:"通常1.0%・au/UQ料金最大10%・年会費11,000円",base:0.010,fee:11000,rates:{},merchants:{},eligibility:"年会費11,000円。通常1.0%。au携帯/UQ mobile/auひかり利用料金の最大10%をPonta還元。au PAYチャージ+決済で計1.5%",source:"https://www.kddi-fs.com/function/promotion/goldlp/"},
+    {id:"dcard_platinum",name:"dカード PLATINUM",reward:"dポイント",note:"通常1.0%・ドコモ料金最大20%（初年度）・年会費29,700円",base:0.010,fee:29700,rates:{},merchants:{},eligibility:"年会費29,700円。通常1.0%。対象ドコモ利用料金は初年度20%、2年目以降は前月までの利用額に応じ10〜20%。ツールは下限10%で計上",source:"https://dcard.docomo.ne.jp/st/dcard_platinum/index.html"},
+    {id:"jal_club_a_gold",name:"JALカード CLUB-Aゴールドカード",reward:"JALマイル",note:"100円=1マイル（1%）・JAL特約店2%・年会費17,600円",base:0.010,fee:17600,rates:{},merchants:{},eligibility:"年会費17,600円（ショッピングマイル・プレミアム自動付帯・100円1マイル）。JALカード特約店（イオン/ファミマ等）で100円2マイル（2%）。搭乗ボーナス等は含めない",source:"https://www.jal.co.jp/jp/ja/jalcard/card/club_a_gold.html"},
+    {id:"jal_suica_regular",name:"JALカードSuica（普通）",reward:"JALマイル",note:"通常200円=1マイル（0.5%）・Suicaチャージ1.5%・えきねっと最大10%・年会費2,200円（初年度無料）",base:0.005,fee:2200,rates:{},merchants:{},eligibility:"年会費2,200円（初年度無料）。基本200円=1マイル。ショッピングマイル・プレミアム(+年4,950)で100円1マイル。モバイルSuicaチャージ1.5%・えきねっと最大10%はJRE POINT（対象取引の条件つき）",source:"https://www.jal.co.jp/jp/ja/jalcard/card/suica.html"},
+    {id:"olive_gold",name:"Oliveフレキシブルペイ ゴールド",reward:"Vポイント",note:"通常0.5%・対象店タッチ7%・年100万で永年無料（年会費5,500円）",base:0.005,fee:5500,rates:{},merchants:{},eligibility:"年会費5,500円（年100万円以上利用で翌年以降永年無料＋1万P）。対象コンビニ・飲食店のスマホタッチ決済で最大7%（対象決済の確認時のみ）",source:"https://www.smbc.co.jp/kojin/olive-account/gold/"},
+    {id:"ana_jcb_wide_gold",name:"ANA JCB ワイドゴールドカード",reward:"ANAマイル",note:"通常1.0%・マイル移行無料・年会費15,400円",base:0.010,fee:15400,rates:{},merchants:{},eligibility:"年会費15,400円。1,000円=10マイル（1.0%）でマイル移行手数料無料。毎年継続2,000マイル。搭乗ボーナス・ANA特約店は含めない",source:"https://www.jcb.co.jp/ordercard/kojin_card/ana_jcb_wide_gold.html"}
   ];
 
   function isMujiMerchant(name){var n=(name||"").toString().toLowerCase();return n.indexOf("無印良品")!==-1||n.indexOf("muji")!==-1;}
@@ -533,19 +547,25 @@
     {cards:["aeon_card_waon"], storeFn:isAeonGroup, rate:0.01, src:"イオングループ対象店1%（自動）"},
     {cards:["olive_flexible_pay_credit"], storeFn:isOliveMerchant, modeParam:"oliveMode", modeRates:{tap_target:0.08}, src:"smbc-card Olive対象店8%"},
     {cards:["olive_flexible_pay_credit"], category:"交通", exclude:["チャージ","pasmo","suica","icoca"], modeParam:"oliveMode", modeRates:{tap_target:0.08}, src:"smbc-card タッチ決済乗車8%（IC/チャージ除く）"},
+    {cards:["olive_gold"], storeFn:isOliveMerchant, modeParam:"oliveMode", modeRates:{tap_target:0.07}, src:"smbc Oliveゴールド対象店7%"},
+    {cards:["olive_gold"], category:"交通", exclude:["チャージ","pasmo","suica","icoca"], modeParam:"oliveMode", modeRates:{tap_target:0.07}, src:"smbc Oliveゴールド タッチ決済乗車7%"},
     {cards:["mufg_card"], storeFn:isMufgMerchant, modeParam:"mufgMode", modeRates:{tokuten:0.07}, cap:50000, src:"cr.mufg.jp 対象店7%（月5万上限）"},
-    {cards:["jal_suica_club_a_gold"], stores:["jr","ジェイアール","えきねっと","ekinet","suica","スイカ","新幹線","モバイルsuica"], modeParam:"jrMode", modeRates:{ekinet:0.10, mobile_suica:0.015}, src:"jreast えきねっと/モバイルSuica（JR限定）"},
-    {cards:["jcb_card_w","jcb_card_s","jcb_card_w_plus_l"], category:"交通", modeParam:"transitMode", modeRates:{jcb_touch:0.10}, src:"JCBタッチ決済乗車10%（約190事業者・2027-05-15）"},
-    {cards:["jcb_card_w","jcb_card_s","jcb_card_w_plus_l"], storeFn:isJcbYuutai, rate:0.10, src:"no-genkin/JCB J-POINTパートナー優待10%（ガスト・すき家・吉野家・スタバ等・要登録/対象決済）"},
+    {cards:["jal_suica_club_a_gold","jal_suica_regular"], stores:["jr","ジェイアール","えきねっと","ekinet","suica","スイカ","新幹線","モバイルsuica"], modeParam:"jrMode", modeRates:{ekinet:0.10, mobile_suica:0.015}, src:"jreast えきねっと/モバイルSuica（JR限定）"},
+    {cards:["jcb_card_w","jcb_card_s","jcb_card_w_plus_l","jcb_gold","jcb_gold_extage","jcb_platinum"], category:"交通", modeParam:"transitMode", modeRates:{jcb_touch:0.10}, src:"JCBタッチ決済乗車10%（約190事業者・2027-05-15）"},
+    {cards:["jcb_card_w","jcb_card_s","jcb_card_w_plus_l","jcb_gold","jcb_gold_extage","jcb_platinum"], storeFn:isJcbYuutai, rate:0.10, src:"no-genkin/JCB J-POINTパートナー優待10%（ガスト・すき家・吉野家・スタバ等・要登録/対象決済）"},
     {cards:["saison_pearl_amex"], allStores:true, modeParam:"qpMode", modeRates:{quicpay:0.02}, cap:25000, src:"セゾンパールQuicPay2%（年30万=月2.5万上限）"},
     {cards:["yodobashi_gold_plus"], stores:["ヨドバシ","yodobashi"], rate:0.11, src:"goldpoint.co.jp ヨドバシ11%"},
     {cards:["amazon_mastercard"], stores:["amazon","アマゾン"], rate:0.02, src:"Amazon Mastercard Amazon2%（プライム）"},
     {cards:["rakuten_card"], stores:["楽天市場"], rate:0.03, src:"楽天カード 楽天市場3%（SPU基本）"},
     {cards:["paypay_card"], stores:["yahoo","ヤフー"], rate:0.05, src:"PayPayカード Yahoo!ショッピング5%"},
     {cards:["dcard_gold"], stores:["ドコモ","docomo"], rate:0.10, src:"dカードGOLD ドコモ料金10%"},
+    {cards:["dcard_platinum"], stores:["ドコモ","docomo","ahamo"], rate:0.10, src:"dカードPLATINUM ドコモ料金10〜20%（下限10%計上）"},
+    {cards:["au_pay_gold"], stores:["au携帯","auひかり","au料金","auでんき","uqモバイル","uq mobile","kddi"], rate:0.10, src:"au PAYゴールド au/UQ料金10%"},
+    {cards:["jal_club_a_gold"], storeFn:isAeonGroup, rate:0.02, src:"JALカード特約店（イオン等）2%"},
+    {cards:["jal_club_a_gold"], stores:["ファミマ","ファミリーマート","eneos","エネオス"], rate:0.02, src:"JALカード特約店（ファミマ/ENEOS等）2%"},
     {cards:["lawson_ponta_plus"], stores:["ローソン","ナチュラルローソン","ローソンストア100"], modeParam:"lawsonMode", modeRates:{evening:0.02, day1020:0.03, day1020_evening:0.06}, src:"lawsonbank ローソンPontaプラス（時間帯・10日20日エントリー）"},
     {cards:["lawson_ponta_plus"], storeFn:isMufgMerchant, exclude:["ローソン","セブン","ミニストップ"], modeParam:"lawsonMode", modeRates:{taisho5:0.05}, src:"lawsonbank 対象店5%（OK・松屋等・対象決済）"},
-    {cards:["jre_card","view_standard","biccamera_suica"], stores:["モバイルsuica","suicaチャージ","suicaオートチャージ","オートチャージ"], rate:0.015, src:"ビューカード系 モバイルSuica/チャージ1.5%"},
+    {cards:["jre_card","view_standard","biccamera_suica","view_gold"], stores:["モバイルsuica","suicaチャージ","suicaオートチャージ","オートチャージ"], rate:0.015, src:"ビューカード系 モバイルSuica/チャージ1.5%"},
     {cards:["jre_card"], stores:["アトレ","エキュート","ecute","シャポー","ビーンズ","ペリエ","nonowa","駅ビル"], rate:0.035, src:"JRE CARD優待店3.5%（アトレ等）"},
     {cards:["biccamera_suica"], stores:["ビックカメラ","biccamera","コジマ","ソフマップ"], rate:0.10, src:"ビックカメラ カード決済10%（Suica併用最大11.5%）"},
     {cards:["tokyu_card"], stores:["東急百貨店"], rate:0.03, src:"TOKYU CARD 東急百貨店3%"},
@@ -814,10 +834,11 @@
     // 条件モードは、その特典を持つカードが今の候補に含まれる時だけ表示する（UI整理）
     var candIds={};a.cardResults.forEach(function(c){candIds[c.card.id]=true;});
     [["ministopModeWrap","aeon_card_waon"],["mujiModeWrap","muji_card_visa"],["oliveModeWrap","olive_flexible_pay_credit"],["qpModeWrap","saison_pearl_amex"],["mufgModeWrap","mufg_card"],["lawsonModeWrap","lawson_ponta_plus"]].forEach(function(m){var el=document.getElementById(m[0]);if(el)el.classList.toggle("hide",!candIds[m[1]]);});
+    var ow=document.getElementById("oliveModeWrap");if(ow&&candIds["olive_gold"])ow.classList.remove("hide");
     // 乗車特化（JR/JCB）は1枚では選ばれにくいので複数枚モードの時だけ表示
     var isMulti=(mode==="multi");
-    var jw=document.getElementById("jrModeWrap");if(jw)jw.classList.toggle("hide",!(isMulti&&candIds["jal_suica_club_a_gold"]));
-    var tw=document.getElementById("transitModeWrap");if(tw)tw.classList.toggle("hide",!(isMulti&&(candIds["jcb_card_w"]||candIds["jcb_card_s"])));
+    var jw=document.getElementById("jrModeWrap");if(jw)jw.classList.toggle("hide",!(isMulti&&(candIds["jal_suica_club_a_gold"]||candIds["jal_suica_regular"])));
+    var tw=document.getElementById("transitModeWrap");if(tw)tw.classList.toggle("hide",!(isMulti&&(candIds["jcb_card_w"]||candIds["jcb_card_s"]||candIds["jcb_card_w_plus_l"]||candIds["jcb_gold"]||candIds["jcb_gold_extage"]||candIds["jcb_platinum"])));
 
     var ministopTail=ministopMode==="aeonpay_store_weekend"?"・ミニストップAEON Pay店頭5%":ministopMode==="aeonpay_mobile_order_weekend"?"・ミニストップAEON Payモバイル注文10%":"";
     var tail=(paymentType==="debit"?"・デビットのみ":paymentType==="credit"?"・クレジットのみ":"")+ministopTail+(freeOnly?"・利用条件込みで年会費無料":"")+(studentEligible?"・学生向け可":"")+(pref?"・"+pref:"");
