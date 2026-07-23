@@ -439,6 +439,7 @@
     "TOKYU POINT":{yen:1.0,note:"1pt=1円相当（東急）"},
     "小田急ポイント":{yen:1.0,note:"1pt=1円相当（小田急）"},
     "ビックポイント":{yen:1.0,note:"1pt=1円相当（ビックカメラ）"},
+    "プラスポイント":{yen:1.0,note:"1pt=1円相当（出光apollostation）"},
     "ゴールドポイント":{yen:1.0,note:"1pt=1円相当（ヨドバシ等）"},
     "メルカリポイント":{yen:1.0,note:"1pt=1円相当（メルカリ）"},
     "PayPayポイント":{yen:1.0,note:"1pt=1円相当として比較"},
@@ -495,7 +496,13 @@
     {id:"maruetsu_card",name:"マルエツカード",reward:"WAON POINT",note:"通常0.5%・マルエツ/イオン系1%・日曜5%OFF・年会費無料",base:0.005,fee:0,rates:{},merchants:{},eligibility:"年会費無料（イオンカード系）。マルエツ・イオングループ対象店は1%（WAON POINT2倍）。毎週日曜クレジット払いで本体価格5%OFF、毎月1日・第3金曜はポイント5倍（条件つきで自動計算しない）",source:"https://www.maruetsu.co.jp/card/"},
     {id:"welcia_card",name:"ウエルシアカード",reward:"WAON POINT",note:"通常0.5%・ウエルシア最大2.5%・イオン系1%・年会費無料",base:0.005,fee:0,rates:{},merchants:{},eligibility:"年会費無料（イオンカード系）。ウエルシアグループはカード提示＋クレジットで最大2.5%。イオングループ対象店1%。毎月10日クレジット10%は条件つきで自動計算しない",source:"https://adviser-navi.co.jp/card/column/2660/"},
     {id:"view_standard",name:"ビューカード スタンダード",reward:"JRE POINT",note:"通常0.5%・Suicaチャージ1.5%・年会費524円",base:0.005,fee:524,rates:{},merchants:{},eligibility:"年会費524円。モバイルSuica/オートチャージ・定期券購入で1.5%。JRE POINTはSuicaに1pt=1円",source:"https://www.jreast.co.jp/card/"},
-    {id:"jcb_card_w_plus_l",name:"JCB カード W plus L",reward:"J-POINT",note:"女性向け・通常1.0%・年会費無料",base:0.010,fee:0,rates:{},merchants:{},eligibility:"39歳までに入会（40歳以降も無料）。JCB CARD Wと同率の通常1.0%＋女性向け保険・優待（LINDAリーグ）。優待店（J-POINTパートナー）の上乗せは条件確認",source:"https://www.jcb.co.jp/ordercard/kojin_card/jcb_card_w.html"}
+    {id:"jcb_card_w_plus_l",name:"JCB カード W plus L",reward:"J-POINT",note:"女性向け・通常1.0%・年会費無料",base:0.010,fee:0,rates:{},merchants:{},eligibility:"39歳までに入会（40歳以降も無料）。JCB CARD Wと同率の通常1.0%＋女性向け保険・優待（LINDAリーグ）。優待店（J-POINTパートナー）の上乗せは条件確認",source:"https://www.jcb.co.jp/ordercard/kojin_card/jcb_card_w.html"},
+    {id:"cosmo_opus",name:"コスモ・ザ・カード・オーパス",reward:"WAON POINT",note:"通常0.5%・イオン系1%・コスモ石油で会員価格・年会費無料",base:0.005,fee:0,rates:{},merchants:{},eligibility:"年会費無料（イオン×コスモ提携）。イオングループ対象店1%（WAON POINT2倍）。コスモ石油SSで給油が会員価格（値引きは円/Lでポイント%換算しない）。ETC3倍",source:"https://www.aeon.co.jp/card/lineup/cosmo/"},
+    {id:"apollostation_card",name:"apollostation card（出光）",reward:"プラスポイント",note:"通常0.5%・ガソリン2円/L引き・年会費無料",base:0.005,fee:0,rates:{},merchants:{},eligibility:"年会費永年無料。出光・シェルSSでガソリン・軽油2円/L引き（灯油1円/L・月300Lまで、値引きは円/Lでポイント%換算しない）。ねびきプラス（年550円）で最大10円/L引き",source:"https://www.idemitsucard.com/card/apollostation/"},
+    {id:"ana_tome_pasmo",name:"ソラチカカード（ANA To Me CARD PASMO JCB）",reward:"ANAマイル",note:"200円=1マイル（0.5%）・東京メトロ乗車でメトポ・年会費2,200円（初年度無料）",base:0.005,fee:2200,rates:{},merchants:{},eligibility:"年会費2,200円（初年度無料）。基本200円=1マイル（1マイルコース）。2マイルコース（+年5,500円）で200円=2マイル（1.0%）。PASMOオートチャージで東京メトロ乗車・加盟店のメトロポイントが貯まりANAマイルへ移行可（自動計算しない）",source:"https://www.jcb.co.jp/ordercard/teikei/ana_tome.html"},
+    {id:"epos_gold",name:"エポスゴールドカード",reward:"エポスポイント",note:"通常0.5%・選べる3倍店1%・年50万で永年無料",base:0.005,fee:5000,rates:{},merchants:{},eligibility:"年会費5,000円だが年50万円以上利用または招待で永年無料。選べるポイントアップショップ（最大3店）は1%。マルイ/モディ2倍。年100万で1万ボーナスP（実質最大約2%）は条件つきで自動計算しない",source:"https://www.eposcard.co.jp/beginner/gold.html"},
+    {id:"saison_gold_premium",name:"SAISON GOLD Premium",reward:"永久不滅ポイント",note:"通常0.5%相当・コンビニ/カフェ最大5%・年100万で永年無料",base:0.001,fee:11000,rates:{},merchants:{},eligibility:"年会費11,000円だが年100万円以上利用で永年無料。セブン/ローソン/スタバ/珈琲館/カフェドクリエ/ベローチェ/マクドナルドは年間利用額に応じ2.5〜5%（15万未満2.5%・15〜30万4%・30万以上5%）。ツールは下限2.5%で計上。永久不滅ポイントは交換先で価値変動",source:"https://www.saisoncard.co.jp/creditcard/lineup/102/"},
+    {id:"dcard_gold_u",name:"dカード GOLD U",reward:"dポイント",note:"18〜29歳向け・通常1.0%・ドコモ料金5%・年会費3,300円（条件で実質無料）",base:0.010,fee:3300,rates:{},merchants:{},eligibility:"満18〜29歳（高校生除く）。年会費3,300円（対象ドコモ料金プラン等の条件で実質無料）。対象のドコモ利用料金1,000円ごとに5%。満30歳更新時にdカード GOLDへ自動変更",source:"https://dcard.docomo.ne.jp/st/dcard_goldu/index.html"}
   ];
 
   function isMujiMerchant(name){var n=(name||"").toString().toLowerCase();return n.indexOf("無印良品")!==-1||n.indexOf("muji")!==-1;}
@@ -544,7 +551,9 @@
     {cards:["tokyu_card"], stores:["東急百貨店"], rate:0.03, src:"TOKYU CARD 東急百貨店3%"},
     {cards:["tokyu_card"], stores:["東急ストア","東急線","pasmoオートチャージ"], rate:0.01, src:"TOKYU CARD 東急ストア/PASMOオートチャージ1%"},
     {cards:["op_credit"], stores:["小田急"], rate:0.05, src:"OPクレジット 小田急百貨店/加盟店（最大10%）"},
-    {cards:["maruetsu_card","welcia_card"], storeFn:isAeonGroup, rate:0.01, src:"イオングループ対象店1%（WAON POINT2倍）"},
+    {cards:["maruetsu_card","welcia_card","cosmo_opus"], storeFn:isAeonGroup, rate:0.01, src:"イオングループ対象店1%（WAON POINT2倍）"},
+    {cards:["saison_gold_premium"], stores:["セブン","ローソン","スターバックス","スタバ","珈琲館","カフェ・ド・クリエ","ベローチェ","マクドナルド","マック"], rate:0.025, src:"SAISON GOLD Premium コンビニ/カフェ2.5〜5%（下限2.5%計上）"},
+    {cards:["dcard_gold_u"], stores:["ドコモ","docomo","ahamo"], rate:0.05, src:"dカードGOLD U ドコモ料金5%"},
     {cards:["maruetsu_card"], stores:["マルエツ","maruetsu"], rate:0.01, src:"マルエツ1%（WAON POINT2倍）"},
     {cards:["welcia_card"], stores:["ウエルシア","welcia","ハックドラッグ","ダックス"], rate:0.025, src:"ウエルシアグループ最大2.5%"}
   ];
