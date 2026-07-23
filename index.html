@@ -470,17 +470,18 @@
     var n=(row.name||"").toString().toLowerCase();
     if(card.id==="jal_suica_club_a_gold"){
       var isJr=(row.category==="交通"||n.indexOf("えきねっと")!==-1||n.indexOf("ekinet")!==-1||n.indexOf("suica")!==-1||n.indexOf("スイカ")!==-1||n.indexOf("jr")!==-1||n.indexOf("定期")!==-1);
-      if(isJr&&jrMode==="ekinet")return 0.10/rewardYen(card);
-      if(isJr&&jrMode==="mobile_suica")return 0.015/rewardYen(card);
+      if(isJr&&jrMode==="ekinet")return {rate:0.10/rewardYen(card),cap:null,base:0};
+      if(isJr&&jrMode==="mobile_suica")return {rate:0.015/rewardYen(card),cap:null,base:0};
     }
-    if(card.id==="saison_pearl_amex"&&qpMode==="quicpay")return 0.02/rewardYen(card);
-    if(card.id==="mufg_card"&&mufgMode==="tokuten"&&isMufgMerchant(n))return 0.07/rewardYen(card);
+    // QuicPay2%は年30万まで（月換算2.5万）、超過は通常0.5%。MUFG特約店7%はスペシャル分が月5万まで、超過は0.5%。
+    if(card.id==="saison_pearl_amex"&&qpMode==="quicpay")return {rate:0.02/rewardYen(card),cap:25000,base:card.base};
+    if(card.id==="mufg_card"&&mufgMode==="tokuten"&&isMufgMerchant(n))return {rate:0.07/rewardYen(card),cap:50000,base:card.base};
     return null;
   }
   // 1明細あたりの名目率（割当判断用・上限は無視）
   function nominalRate(card,row,condOn,ministopMode,mujiMode,oliveMode,jrMode,qpMode,mufgMode){
     var sp=specialRate(card,row,jrMode,qpMode,mufgMode);
-    if(sp!=null)return sp;
+    if(sp!=null)return sp.rate;
     var mr=merchantRate(card,row.name,ministopMode,mujiMode,oliveMode,jrMode,qpMode,mufgMode);
     if(mr!=null)return mr;
     var r=card.rates[row.category];
@@ -492,10 +493,10 @@
   function valueRate(card,row,condOn,ministopMode,mujiMode,oliveMode,jrMode,qpMode,mufgMode){return nominalRate(card,row,condOn,ministopMode,mujiMode,oliveMode,jrMode,qpMode,mufgMode)*rewardYen(card);}
   // カードが rows 群から得る月間“ポイント数”（対象店は上限なし・カテゴリ特典は月上限を追跡）
   function cardMonthlyPoints(card,rows,condOn,ministopMode,mujiMode,oliveMode,jrMode,qpMode,mufgMode){
-    var capUsed={},total=0;
+    var capUsed={},spUsed={},total=0;
     rows.forEach(function(row){
       var sp=specialRate(card,row,jrMode,qpMode,mufgMode);
-      if(sp!=null){total+=row.amount*sp;return;}
+      if(sp!=null){var scap=(sp.cap!=null?sp.cap:Infinity),sused=spUsed[card.id]||0;var shi=Math.max(0,Math.min(row.amount,scap-sused));total+=shi*sp.rate+(row.amount-shi)*sp.base;spUsed[card.id]=sused+shi;return;}
       var mr=merchantRate(card,row.name,ministopMode,mujiMode,oliveMode,jrMode,qpMode,mufgMode);
       if(mr!=null){total+=row.amount*mr;return;}
       var r=card.rates[row.category];
