@@ -490,53 +490,64 @@
   // イオングループ対象店（イオンカード払いで1%＝WAON POINT2倍・自動。ミニストップは別途AEON Pay特典で扱う）。まいばすけっと等。
   function isAeonGroup(name){var n=(name||"").toString().toLowerCase();return ["イオン","まいばす","マックスバリュ","ダイエー","ビブレ","ザ・ビッグ","マルナカ","カスミ","いなげや"].some(function(k){return n.indexOf(k.toLowerCase())!==-1;});}
   function merchantKeys(card){var keys=Object.keys(card.merchants||{});if(card.id==="muji_card_visa")keys.push("無印良品","muji");return keys;}
-  function merchantRate(card,name,ministopMode,mujiMode,oliveMode,jrMode,qpMode,mufgMode,transitMode){
+  function merchantRate(card,name){
     if(!card.merchants)return null;
     var n=(name||"").toString().toLowerCase();
-    if(card.id==="muji_card_visa"&&isMujiMerchant(n)){
-      if(mujiMode==="muji_card_or_passport_pay")return 0.005;
-      if(mujiMode==="other_smartphone_payment")return 0.003;
-      return null;
-    }
-    if(card.id==="aeon_card_waon"&&(n.indexOf("ミニストップ")!==-1||n.indexOf("ministop")!==-1)){
-      if(ministopMode==="aeon_card_or_waon")return 0.01;
-      if(ministopMode==="aeonpay_store_weekend")return 0.05;
-      if(ministopMode==="aeonpay_mobile_order_weekend")return 0.10;
-    }
-    if(card.id==="aeon_card_waon"&&isAeonGroup(n))return 0.01;
-    if(card.id==="yodobashi_gold_plus"&&(n.indexOf("ヨドバシ")!==-1||n.indexOf("yodobashi")!==-1))return 0.11;
-    if(card.id==="amazon_mastercard"&&(n.indexOf("amazon")!==-1||n.indexOf("アマゾン")!==-1))return 0.02;
-    if(card.id==="rakuten_card"&&n.indexOf("楽天市場")!==-1)return 0.03;
-    if(card.id==="paypay_card"&&(n.indexOf("yahoo")!==-1||n.indexOf("ヤフー")!==-1))return 0.05;
-    if(card.id==="dcard_gold"&&(n.indexOf("ドコモ")!==-1||n.indexOf("docomo")!==-1))return 0.10;
-    if(card.id==="olive_flexible_pay_credit"&&oliveMode==="tap_target"&&isOliveMerchant(n))return 0.08;
     for(var k in card.merchants){if(n.indexOf(k.toLowerCase())!==-1)return card.merchants[k];}
     return null;
   }
-  // 支払方法を確認したときだけ効く特別レート。JRE POINT/QuicPayはVポイント等と別通貨なので、
-  // 目的の還元「率（円価値）」を rewardYen で割って注入し、×rewardYen 後に正しい%になるようにする。
-  function specialRate(card,row,oliveMode,jrMode,qpMode,mufgMode,transitMode){
+  // ===== 特約店データテーブル =====
+  // 特約店の還元はここに集約。1件足す＝1行足すだけ（計算ロジックは lookupTokuten が引く）。
+  // rate/modeRates は「還元率（円価値・%）」。engineが ÷rewardYen して別通貨(JRE POINT/マイル等)も正しく注入する。
+  // cards:対象カードid配列(null=全カード) / stores:店名キーワード配列・storeFn:判定関数・category:カテゴリ一致・allStores:全対象
+  // exclude:除外キーワード / rate:自動無条件 か modeParam+modeRates:該当モード選択時のみ / cap:月間対象額上限(超過は通常還元) / src:出所
+  var TOKUTEN=[
+    {cards:null, stores:["水道"], rate:0, src:"水道はクレカ不可が多く現金＝還元0"},
+    {cards:["muji_card_visa"], storeFn:isMujiMerchant, modeParam:"mujiMode", modeRates:{muji_card_or_passport_pay:0.025, other_smartphone_payment:0.015}, src:"muji.com/jp/mujicard"},
+    {cards:["aeon_card_waon"], stores:["ミニストップ","ministop"], modeParam:"ministopMode", modeRates:{aeon_card_or_waon:0.01, aeonpay_store_weekend:0.05, aeonpay_mobile_order_weekend:0.10}, src:"aeon.co.jp / ministop AEON Pay"},
+    {cards:["aeon_card_waon"], storeFn:isAeonGroup, rate:0.01, src:"イオングループ対象店1%（自動）"},
+    {cards:["olive_flexible_pay_credit"], storeFn:isOliveMerchant, modeParam:"oliveMode", modeRates:{tap_target:0.08}, src:"smbc-card Olive対象店8%"},
+    {cards:["olive_flexible_pay_credit"], category:"交通", exclude:["チャージ","pasmo","suica","icoca"], modeParam:"oliveMode", modeRates:{tap_target:0.08}, src:"smbc-card タッチ決済乗車8%（IC/チャージ除く）"},
+    {cards:["mufg_card"], storeFn:isMufgMerchant, modeParam:"mufgMode", modeRates:{tokuten:0.07}, cap:50000, src:"cr.mufg.jp 対象店7%（月5万上限）"},
+    {cards:["jal_suica_club_a_gold"], stores:["jr","ジェイアール","えきねっと","ekinet","suica","スイカ","新幹線","モバイルsuica"], modeParam:"jrMode", modeRates:{ekinet:0.10, mobile_suica:0.015}, src:"jreast えきねっと/モバイルSuica（JR限定）"},
+    {cards:["jcb_card_w","jcb_card_s"], category:"交通", modeParam:"transitMode", modeRates:{jcb_touch:0.10}, src:"JCBタッチ決済乗車10%（約190事業者・2027-05-15）"},
+    {cards:["saison_pearl_amex"], allStores:true, modeParam:"qpMode", modeRates:{quicpay:0.02}, cap:25000, src:"セゾンパールQuicPay2%（年30万=月2.5万上限）"},
+    {cards:["yodobashi_gold_plus"], stores:["ヨドバシ","yodobashi"], rate:0.11, src:"goldpoint.co.jp ヨドバシ11%"},
+    {cards:["amazon_mastercard"], stores:["amazon","アマゾン"], rate:0.02, src:"Amazon Mastercard Amazon2%（プライム）"},
+    {cards:["rakuten_card"], stores:["楽天市場"], rate:0.03, src:"楽天カード 楽天市場3%（SPU基本）"},
+    {cards:["paypay_card"], stores:["yahoo","ヤフー"], rate:0.05, src:"PayPayカード Yahoo!ショッピング5%"},
+    {cards:["dcard_gold"], stores:["ドコモ","docomo"], rate:0.10, src:"dカードGOLD ドコモ料金10%"}
+  ];
+  // 特約店テーブルを引いて {rate(名目・÷rewardYen済), cap, base} を返す（該当なしはnull）。最初に一致した行を採用。
+  function lookupTokuten(card,row,modes){
     var n=(row.name||"").toString().toLowerCase();
-    if(n.indexOf("水道")!==-1)return {rate:0,cap:null,base:0};
-    // Oliveのスマホタッチ決済乗車は対象鉄道・バス（私鉄含む）で8%。対象店タッチ8%をONにしたら交通も8%扱い。
-    // Olive 8%は「クレカのタッチ決済乗車」のみ。Suica/PASMOチャージ・IC乗車は対象外（クレカのタッチ決済ではないため）→通常0.5%。
-    if(card.id==="olive_flexible_pay_credit"&&oliveMode==="tap_target"&&row.category==="交通"&&n.indexOf("チャージ")===-1&&n.indexOf("pasmo")===-1&&n.indexOf("suica")===-1&&n.indexOf("icoca")===-1)return {rate:0.08/rewardYen(card),cap:null,base:card.base};
-    if(card.id==="jal_suica_club_a_gold"){
-      // JR利用のみ対象（私鉄は対象外）。交通カテゴリ一括ではなくJR系キーワードで判定。
-      var isJr=(n.indexOf("jr")!==-1||n.indexOf("ジェイアール")!==-1||n.indexOf("えきねっと")!==-1||n.indexOf("ekinet")!==-1||n.indexOf("suica")!==-1||n.indexOf("スイカ")!==-1||n.indexOf("新幹線")!==-1||n.indexOf("モバイルsuica")!==-1);
-      if(isJr&&jrMode==="ekinet")return {rate:0.10/rewardYen(card),cap:null,base:0};
-      if(isJr&&jrMode==="mobile_suica")return {rate:0.015/rewardYen(card),cap:null,base:0};
+    for(var i=0;i<TOKUTEN.length;i++){
+      var t=TOKUTEN[i];
+      if(t.cards&&t.cards.indexOf(card.id)===-1)continue;
+      if(t.exclude&&t.exclude.some(function(k){return n.indexOf(k.toLowerCase())!==-1;}))continue;
+      var m=false;
+      if(t.allStores)m=true;
+      else{
+        if(t.storeFn&&t.storeFn(n))m=true;
+        if(!m&&t.stores&&t.stores.some(function(k){return n.indexOf(k.toLowerCase())!==-1;}))m=true;
+        if(!m&&t.category&&row.category===t.category)m=true;
+      }
+      if(!m)continue;
+      var vr=null;
+      if(t.rate!=null)vr=t.rate;
+      else if(t.modeParam){var mv=modes[t.modeParam];if(mv&&t.modeRates[mv]!=null)vr=t.modeRates[mv];}
+      if(vr==null)continue;
+      return {rate:vr/rewardYen(card),cap:(t.cap!=null?t.cap:null),base:card.base};
     }
-    // QuicPay2%は年30万まで（月換算2.5万）、超過は通常0.5%。MUFG特約店7%はスペシャル分が月5万まで、超過は0.5%。
-    if(card.id==="saison_pearl_amex"&&qpMode==="quicpay")return {rate:0.02/rewardYen(card),cap:25000,base:card.base};
-    if(card.id==="mufg_card"&&mufgMode==="tokuten"&&isMufgMerchant(n))return {rate:0.07/rewardYen(card),cap:50000,base:card.base};
-    // JCB ORIGINAL SERIES（JCB CARD W/S）の事前ポイントアップ登録＋タッチ決済乗車で10%（J-POINT20倍・全国約190交通事業者・2027-05-15まで）。私鉄含む交通に適用。
-    if((card.id==="jcb_card_w"||card.id==="jcb_card_s")&&transitMode==="jcb_touch"&&(row.category==="交通"||n.indexOf("タッチ決済")!==-1||n.indexOf("乗車")!==-1))return {rate:0.10/rewardYen(card),cap:null,base:card.base};
     return null;
+  }
+  // 特約店の特別レート＝データテーブル(TOKUTEN)を引くだけ。水道=現金0や別通貨・上限つき特典も一元管理。
+  function specialRate(card,row,ministopMode,mujiMode,oliveMode,jrMode,qpMode,mufgMode,transitMode){
+    return lookupTokuten(card,row,{ministopMode:ministopMode,mujiMode:mujiMode,oliveMode:oliveMode,jrMode:jrMode,qpMode:qpMode,mufgMode:mufgMode,transitMode:transitMode});
   }
   // 1明細あたりの名目率（割当判断用・上限は無視）
   function nominalRate(card,row,condOn,ministopMode,mujiMode,oliveMode,jrMode,qpMode,mufgMode,transitMode){
-    var sp=specialRate(card,row,oliveMode,jrMode,qpMode,mufgMode,transitMode);
+    var sp=specialRate(card,row,ministopMode,mujiMode,oliveMode,jrMode,qpMode,mufgMode,transitMode);
     if(sp!=null)return sp.rate;
     var mr=merchantRate(card,row.name,ministopMode,mujiMode,oliveMode,jrMode,qpMode,mufgMode,transitMode);
     if(mr!=null)return mr;
@@ -551,7 +562,7 @@
   function cardMonthlyPoints(card,rows,condOn,ministopMode,mujiMode,oliveMode,jrMode,qpMode,mufgMode,transitMode){
     var capUsed={},spUsed={},total=0;
     rows.forEach(function(row){
-      var sp=specialRate(card,row,oliveMode,jrMode,qpMode,mufgMode,transitMode);
+      var sp=specialRate(card,row,ministopMode,mujiMode,oliveMode,jrMode,qpMode,mufgMode,transitMode);
       if(sp!=null){var scap=(sp.cap!=null?sp.cap:Infinity),sused=spUsed[card.id]||0;var shi=Math.max(0,Math.min(row.amount,scap-sused));total+=shi*sp.rate+(row.amount-shi)*sp.base;spUsed[card.id]=sused+shi;return;}
       var mr=merchantRate(card,row.name,ministopMode,mujiMode,oliveMode,jrMode,qpMode,mufgMode,transitMode);
       if(mr!=null){total+=row.amount*mr;return;}
