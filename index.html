@@ -469,7 +469,8 @@
   function specialRate(card,row,jrMode,qpMode,mufgMode){
     var n=(row.name||"").toString().toLowerCase();
     if(card.id==="jal_suica_club_a_gold"){
-      var isJr=(row.category==="交通"||n.indexOf("えきねっと")!==-1||n.indexOf("ekinet")!==-1||n.indexOf("suica")!==-1||n.indexOf("スイカ")!==-1||n.indexOf("jr")!==-1||n.indexOf("定期")!==-1);
+      // JR利用のみ対象（私鉄は対象外）。交通カテゴリ一括ではなくJR系キーワードで判定。
+      var isJr=(n.indexOf("jr")!==-1||n.indexOf("ジェイアール")!==-1||n.indexOf("えきねっと")!==-1||n.indexOf("ekinet")!==-1||n.indexOf("suica")!==-1||n.indexOf("スイカ")!==-1||n.indexOf("新幹線")!==-1||n.indexOf("モバイルsuica")!==-1);
       if(isJr&&jrMode==="ekinet")return {rate:0.10/rewardYen(card),cap:null,base:0};
       if(isJr&&jrMode==="mobile_suica")return {rate:0.015/rewardYen(card),cap:null,base:0};
     }
