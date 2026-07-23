@@ -489,6 +489,8 @@
   function isMufgMerchant(name){var n=(name||"").toString().toLowerCase();return ["セブン","ローソン","ミニストップ","松屋","松のや","マイカリー","ピザハット","くら寿司","スシロー","ゼッテリア","ロッテリア","オーケー","オオゼキ","東急ストア","東武ストア","三和","アオキスーパー","肉のハナマサ","ハナマサ","ジャパンミート","ヤマナカ","近商","ドミー","サンリブ","ハーベス","スーパー魚長","フィール","フードストア","フードワン","コクミン"].some(function(k){return n.indexOf(k.toLowerCase())!==-1;});}
   // イオングループ対象店（イオンカード払いで1%＝WAON POINT2倍・自動。ミニストップは別途AEON Pay特典で扱う）。まいばすけっと等。
   function isAeonGroup(name){var n=(name||"").toString().toLowerCase();return ["イオン","まいばす","マックスバリュ","ダイエー","ビブレ","ザ・ビッグ","マルナカ","カスミ","いなげや"].some(function(k){return n.indexOf(k.toLowerCase())!==-1;});}
+  // JCB ORIGINAL SERIES（W/S）のJ-POINTパートナー優待店10%（no-genkin・要ポイントアップ登録/対象決済）。
+  function isJcbYuutai(name){var n=(name||"").toString().toLowerCase();return ["ガスト","ジョナサン","すき家","バーミヤン","吉野家","ドミノ","サンマルク","スターバックス","スタバ"].some(function(k){return n.indexOf(k.toLowerCase())!==-1;});}
   function merchantKeys(card){var keys=Object.keys(card.merchants||{});if(card.id==="muji_card_visa")keys.push("無印良品","muji");return keys;}
   function merchantRate(card,name){
     if(!card.merchants)return null;
@@ -511,6 +513,7 @@
     {cards:["mufg_card"], storeFn:isMufgMerchant, modeParam:"mufgMode", modeRates:{tokuten:0.07}, cap:50000, src:"cr.mufg.jp 対象店7%（月5万上限）"},
     {cards:["jal_suica_club_a_gold"], stores:["jr","ジェイアール","えきねっと","ekinet","suica","スイカ","新幹線","モバイルsuica"], modeParam:"jrMode", modeRates:{ekinet:0.10, mobile_suica:0.015}, src:"jreast えきねっと/モバイルSuica（JR限定）"},
     {cards:["jcb_card_w","jcb_card_s"], category:"交通", modeParam:"transitMode", modeRates:{jcb_touch:0.10}, src:"JCBタッチ決済乗車10%（約190事業者・2027-05-15）"},
+    {cards:["jcb_card_w","jcb_card_s"], storeFn:isJcbYuutai, rate:0.10, src:"no-genkin/JCB J-POINTパートナー優待10%（ガスト・すき家・吉野家・スタバ等・要登録/対象決済）"},
     {cards:["saison_pearl_amex"], allStores:true, modeParam:"qpMode", modeRates:{quicpay:0.02}, cap:25000, src:"セゾンパールQuicPay2%（年30万=月2.5万上限）"},
     {cards:["yodobashi_gold_plus"], stores:["ヨドバシ","yodobashi"], rate:0.11, src:"goldpoint.co.jp ヨドバシ11%"},
     {cards:["amazon_mastercard"], stores:["amazon","アマゾン"], rate:0.02, src:"Amazon Mastercard Amazon2%（プライム）"},
