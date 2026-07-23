@@ -175,6 +175,8 @@
   .modalsub{font-size:13.5px;color:var(--muted);margin:0 0 16px;}
   .modalapply{display:block;background:var(--action);color:#fff;text-decoration:none;font-weight:750;padding:14px;border-radius:12px;font-size:15px;box-shadow:0 6px 14px color-mix(in srgb,var(--action) 28%,transparent);}
   .modalapply:hover{background:var(--action-strong);}
+  .modalcsv{display:block;width:100%;margin-top:10px;background:var(--surface-2);border:1px solid var(--line);color:var(--muted);font-weight:650;padding:11px;border-radius:12px;cursor:pointer;font-size:13.5px;}
+  .modalcsv:hover{border-color:color-mix(in srgb,var(--action) 40%,var(--line));}
   .modalnote{font-size:10.5px;color:var(--faint);margin:12px 0 0;line-height:1.55;}
 </style>
 
@@ -357,7 +359,7 @@
           <li><strong>年会費無料フィルタあり。</strong> 初心者は年会費無料に絞れる。</li>
           <li><strong>キャンペーンは別試算。</strong> エントリー、対象外、上限、開催期間をこの試作だけで判定しません。下記の公式情報と利用時点の規約を確認してください。</li>
         </ul>
-        <p><strong>v19で参照した公式情報（2026-07-23確認）</strong></p>
+        <p><strong>v20で参照した公式情報（2026-07-23確認）</strong></p>
         <ul class="source-links">
           <li><a href="https://www.jcb.co.jp/promotion/ordercard/free_ws/index.html" target="_blank" rel="noopener noreferrer">JCB カード W</a>・<a href="https://recruit-card.jp/basic-card/" target="_blank" rel="noopener noreferrer">リクルートカード</a>・<a href="https://www.rakuten-card.co.jp/point/" target="_blank" rel="noopener noreferrer">楽天カード</a>・<a href="https://dcard.docomo.ne.jp/st/dpoint_points/shopping/index.html" target="_blank" rel="noopener noreferrer">dカード</a></li>
           <li><a href="https://www.orico.co.jp/creditcard/list/thepoint/" target="_blank" rel="noopener noreferrer">Orico Card THE POINT</a>・<a href="https://qa.kddi-fs.com/faq/show/357?category_id=56&amp;site_domain=1" target="_blank" rel="noopener noreferrer">au PAY カード</a>・<a href="https://www.smbc-card.com/nyukai/card/numberless.jsp" target="_blank" rel="noopener noreferrer">三井住友カード（NL）</a>・<a href="https://www.eposcard.co.jp/smp/aflt/index2.html" target="_blank" rel="noopener noreferrer">エポスカード</a></li>
@@ -381,10 +383,11 @@
       <p class="modalname" id="modalCardName">—</p>
       <p class="modalsub" id="modalCardSub"></p>
       <a class="modalapply" id="modalApply" href="#" target="_blank" rel="noopener noreferrer">公式サイトで申し込む</a>
+      <button class="modalcsv" id="modalCsv" type="button">📄 診断結果をCSVで保存</button>
       <p class="modalnote">※還元はサンプル/要監修の概算です。券面は仮デザイン（提携後に差し替え）。お申し込み前に各カード公式ページで最新の年会費・還元・条件をご確認ください。</p>
     </div>
   </div>
-  <footer class="foot">クライアントサイド v19・実カードの通常還元比較／特約店・キャンペーン・対象外条件は利用時点で要確認。</footer>
+  <footer class="foot">クライアントサイド v20・実カードの通常還元比較／特約店・キャンペーン・対象外条件は利用時点で要確認。</footer>
 
 </div></div>
 
@@ -510,6 +513,7 @@
   // 目的の還元「率（円価値）」を rewardYen で割って注入し、×rewardYen 後に正しい%になるようにする。
   function specialRate(card,row,oliveMode,jrMode,qpMode,mufgMode,transitMode){
     var n=(row.name||"").toString().toLowerCase();
+    if(n.indexOf("水道")!==-1)return {rate:0,cap:null,base:0};
     // Oliveのスマホタッチ決済乗車は対象鉄道・バス（私鉄含む）で8%。対象店タッチ8%をONにしたら交通も8%扱い。
     if(card.id==="olive_flexible_pay_credit"&&oliveMode==="tap_target"&&row.category==="交通")return {rate:0.08/rewardYen(card),cap:null,base:card.base};
     if(card.id==="jal_suica_club_a_gold"){
@@ -653,7 +657,7 @@
     return found;
   }
 
-  var lastRows=null, lastFromCsv=true, mode="single";
+  var lastRows=null, lastFromCsv=true, mode="single", lastAnalysis=null;
 
   function subsets(arr,maxK){
     var res=[],n=arr.length;
@@ -750,7 +754,7 @@
     var qpMode=document.getElementById("qpMode").value;
     var mufgMode=document.getElementById("mufgMode").value;
     var transitMode=document.getElementById("transitMode").value;
-    var a=analyze(lastRows,{condOn:condOn,maxK:maxK,pref:pref,freeOnly:freeOnly,studentEligible:studentEligible,paymentType:paymentType,ministopMode:ministopMode,mujiMode:mujiMode,oliveMode:oliveMode,jrMode:jrMode,qpMode:qpMode,mufgMode:mufgMode,transitMode:transitMode});
+    var a=analyze(lastRows,{condOn:condOn,maxK:maxK,pref:pref,freeOnly:freeOnly,studentEligible:studentEligible,paymentType:paymentType,ministopMode:ministopMode,mujiMode:mujiMode,oliveMode:oliveMode,jrMode:jrMode,qpMode:qpMode,mufgMode:mufgMode,transitMode:transitMode});lastAnalysis=a;
     // 条件モードは、その特典を持つカードが今の候補に含まれる時だけ表示する（UI整理）
     var candIds={};a.cardResults.forEach(function(c){candIds[c.card.id]=true;});
     [["ministopModeWrap","aeon_card_waon"],["mujiModeWrap","muji_card_visa"],["oliveModeWrap","olive_flexible_pay_credit"],["qpModeWrap","saison_pearl_amex"],["mufgModeWrap","mufg_card"]].forEach(function(m){var el=document.getElementById(m[0]);if(el)el.classList.toggle("hide",!candIds[m[1]]);});
@@ -877,6 +881,15 @@
     render();showResultModal();
   }
   function showResultModal(){if(lastRows&&lastRows.length)document.getElementById("resultModal").classList.remove("hide");}
+  function exportCsv(){
+    if(!lastAnalysis)return;
+    var a=lastAnalysis,rows=[["カード","ポイント","年間実質還元(円)","年会費(円)"]];
+    a.cardResults.slice().sort(function(x,y){return y.annualNet-x.annualNet;}).forEach(function(c){rows.push([c.card.name,c.card.reward,Math.round(c.annualNet),c.card.fee||0]);});
+    rows.push([]);rows.push(["対象支出(月)",Math.round(a.total)]);rows.push(["明細数",a.count]);
+    var csv=rows.map(function(r){return r.map(function(x){return '"'+String(x).replace(/"/g,'""')+'"';}).join(",");}).join("\r\n");
+    var blob=new Blob(["﻿"+csv],{type:"text/csv;charset=utf-8;"}),url=URL.createObjectURL(blob),link=document.createElement("a");
+    link.href=url;link.download="creca-shindan.csv";document.body.appendChild(link);link.click();document.body.removeChild(link);URL.revokeObjectURL(url);
+  }
   function setMode(m){mode=m;document.getElementById("tabSingle").setAttribute("aria-selected",m==="single");document.getElementById("tabMulti").setAttribute("aria-selected",m==="multi");document.getElementById("maxKwrap").classList.toggle("hide",m!=="multi");if(lastRows)render();}
   function setInputMode(m){document.getElementById("inTabCsv").setAttribute("aria-selected",m==="csv");document.getElementById("inTabManual").setAttribute("aria-selected",m==="manual");document.getElementById("csvPanel").classList.toggle("hide",m!=="csv");document.getElementById("manualPanel").classList.toggle("hide",m!=="manual");}
   function manualRows(){
@@ -898,7 +911,8 @@
     "ドラッグストア":[["マツキヨ","マツキヨ"],["ウエルシア","ウエルシア"],["サンドラッグ","サンドラッグ"],["ツルハ","ツルハ"],["スギ薬局","スギ薬局"],["ココカラファイン","ココカラ"],["その他ドラッグ","ドラッグ"]],
     "スーパー":[["イオン／マックスバリュ","イオン"],["まいばすけっと","まいばす"],["肉のハナマサ","肉のハナマサ"],["オーケー","オーケー"],["業務スーパー","業務スーパー"],["その他スーパー","スーパー"]],
     "ネット通販":[["Amazon","Amazon"],["楽天市場","楽天"],["Yahoo!ショッピング","yahoo"],["ヨドバシ","ヨドバシ"],["メルカリ","メルカリ"],["その他ネット","ネット通販"]],
-    "交通":[["JR / Suica","JR"],["私鉄（乗車・概算）","私鉄"],["PASMOチャージ","PASMO"],["クレカのタッチ決済乗車","タッチ決済乗車"],["その他交通","交通"]]
+    "交通":[["JR / Suica","JR"],["私鉄（乗車・概算）","私鉄"],["PASMOチャージ","PASMO"],["クレカのタッチ決済乗車","タッチ決済乗車"],["その他交通","交通"]],
+    "公共料金":[["電気","電気"],["ガス","ガス"],["水道（クレカ不可・現金）","水道"],["その他公共料金","公共料金"]]
   };
   function subInp(id,label){return '<div class="mfield"><label for="'+id+'">'+esc(label)+'</label><div class="inp"><span class="yen">¥</span><input id="'+id+'" type="number" inputmode="numeric" min="0" step="100" placeholder="0"></div></div>';}
   (function(){
@@ -952,6 +966,7 @@
   document.getElementById("inTabManual").addEventListener("click",function(){setInputMode("manual");});
   document.getElementById("manualCalc").addEventListener("click",function(){lastRows=manualRows();lastFromCsv=false;if(!lastRows.length){alert("金額をどれか1つでも入れてください。");return;}render();showResultModal();});
   document.getElementById("modalClose").addEventListener("click",function(){document.getElementById("resultModal").classList.add("hide");});
+  document.getElementById("modalCsv").addEventListener("click",exportCsv);
   document.getElementById("resultModal").addEventListener("click",function(e){if(e.target.id==="resultModal")document.getElementById("resultModal").classList.add("hide");});
   document.getElementById("manualSample").addEventListener("click",manualFillSample);
   document.getElementById("manualClear").addEventListener("click",function(){
