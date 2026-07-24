@@ -106,6 +106,8 @@
   .gain{color:var(--pos);font-weight:700;} .gain.neg{color:var(--gold);}
   .assign{font-size:12px;color:var(--brand);font-weight:600;} .assign small{display:block;color:var(--faint);font-weight:500;font-size:10.5px;}
   .assign.mix{color:var(--gold);}
+  .assign a,.assign small a{color:inherit;text-decoration:underline;text-decoration-color:color-mix(in srgb,currentColor 45%,transparent);}
+  .assign a:hover,.assign small a:hover{text-decoration-color:currentColor;}
 
   .storetag{font-size:11px;font-weight:700;color:var(--brand);background:var(--brand-soft);padding:2px 8px;border-radius:999px;}
   .cardnote{font-size:12px;color:var(--faint);margin:12px 0 0;}
@@ -774,18 +776,19 @@
     best.cards.forEach(function(card){(best.buckets[card.name]||[]).forEach(function(row){rowCard.set(row,card);});});
 
     // カテゴリ別: 担当カード（最多支出）・混在フラグ・上乗せ
-    var catCards={},catGain={},catMixed={};
+    var catCards={},catCardObj={},catGain={},catMixed={};
     activeCats.forEach(function(c){
-      var byCard={},gain=0;
+      var byCard={},nameToCard={},gain=0;
       rows.forEach(function(row){
         if(row.category!==c)return;
         var card=rowCard.get(row)||best.cards[0];
         byCard[card.name]=(byCard[card.name]||0)+row.amount;
+        nameToCard[card.name]=card;
         gain+=(valueRate(card,row,condOn)-baseCard.base*rewardYen(baseCard))*row.amount*12;
       });
       var names=Object.keys(byCard);
       names.sort(function(x,y){return byCard[y]-byCard[x];});
-      catCards[c]=names[0];catMixed[c]=names.length>1;catGain[c]=gain;
+      catCards[c]=names[0];catCardObj[c]=nameToCard[names[0]];catMixed[c]=names.length>1;catGain[c]=gain;
     });
 
     // 店舗別（対象店）
@@ -799,7 +802,7 @@
     storeBest.sort(function(a,b){return b.amt-a.amt;});
 
     return {byCat:byCat,total:total,count:rows.length,activeCats:activeCats,cardResults:cardResults,
-      baseAnnual:baseAnnual,best:best,catCards:catCards,catGain:catGain,catMixed:catMixed,storeBest:storeBest};
+      baseAnnual:baseAnnual,best:best,catCards:catCards,catCardObj:catCardObj,catGain:catGain,catMixed:catMixed,storeBest:storeBest};
   }
 
   function isDark(){return document.documentElement.getAttribute("data-theme")==="dark";}
@@ -864,7 +867,9 @@
     // カテゴリ表
     document.getElementById("catBody").innerHTML=a.activeCats.slice().sort(function(x,y){return a.byCat[y]-a.byCat[x];}).map(function(c){
       var g=a.catGain[c],mixed=a.catMixed[c];
-      var assignTxt=mixed?"店舗で異なる<small>主に "+esc(a.catCards[c])+"</small>":esc(a.catCards[c]);
+      var topCard=a.catCardObj[c];
+      var cardLink=topCard?'<a href="'+esc(topCard.source||"#")+'" target="_blank" rel="noopener noreferrer">'+esc(a.catCards[c])+"</a>":esc(a.catCards[c]);
+      var assignTxt=mixed?"店舗で異なる<small>主に "+cardLink+"</small>":cardLink;
       return "<tr><td>"+esc(c)+"</td><td class='num tnum'>"+yen(a.byCat[c])+"</td><td class='assign"+(mixed?" mix":"")+"'>"+assignTxt+"</td><td class='num tnum'><span class='gain"+(g<0?" neg":"")+"'>"+signYen(g)+"</span></td></tr>";
     }).join("");
 
