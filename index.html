@@ -154,12 +154,6 @@
   .samplebanner{background:var(--gold-soft);color:var(--gold);border:1px solid color-mix(in srgb,var(--gold) 30%,var(--line));border-radius:14px;padding:11px 14px;font-size:12.5px;font-weight:600;margin-bottom:18px;line-height:1.5;}
   .normal-rule{background:#fff9fc;border:1px dashed color-mix(in srgb,var(--brand) 45%,var(--line));border-radius:14px;color:var(--muted);font-size:12.5px;line-height:1.65;margin:12px 0 0;padding:10px 12px;}
   .normal-rule strong{color:var(--ink);}
-  .conditiongrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(245px,1fr));gap:14px;align-items:start;}
-  .conditionbox{background:color-mix(in srgb,var(--surface) 92%,var(--brand-soft));border:1px solid var(--line);border-radius:12px;padding:14px;}
-  .conditionbox h3{font-size:14px;margin:0 0 8px;color:var(--ink);}
-  .conditionbox p{font-size:12px;line-height:1.6;color:var(--muted);margin:7px 0;}
-  .conditionbox .inp{max-width:190px;margin-top:8px;}
-  .conditionresult{font-size:13px;line-height:1.65;margin:9px 0 0;color:var(--ink);}
   .source-links{font-size:12px;line-height:1.8;padding-left:18px;margin:8px 0 0;}
   .source-links a{color:var(--brand);}
   footer.foot{text-align:center;font-size:11.5px;color:var(--faint);margin-top:26px;}
@@ -226,7 +220,7 @@
   </section>
 
   <section class="card">
-    <h2>2. 最適化の方針</h2>
+    <h2>2. 最適化の方針（任意）</h2>
     <div class="modewrap">
       <details class="advanced"><summary>詳細設定（複数枚で使い分け・貯めたいポイント・マイル価値）</summary><div class="advbody">
       <div class="tabs" role="tablist" aria-label="最適化モード">
@@ -242,6 +236,9 @@
       <span class="opt">1マイルの価値
         <select id="mileValue" aria-label="マイルの円換算価値"><option value="1">¥1.0</option><option value="1.5" selected>¥1.5</option><option value="2">¥2.0</option><option value="3">¥3.0</option></select>
       </span>
+      <span class="opt">参考：レギュラー1Lの価格
+        <select id="fuelPrice" aria-label="ガソリン円/L引きの概算に使う参考価格"><option value="150">¥150</option><option value="160">¥160</option><option value="169" selected>¥169（全国平均）</option><option value="180">¥180</option><option value="190">¥190</option></select>
+      </span>
       </div></details>
       <span class="opt">支払い方法
         <select id="paymentType"><option value="all">すべて</option><option value="credit">クレジットカードのみ</option><option value="debit">デビットカードのみ（即時引落）</option></select>
@@ -251,31 +248,7 @@
       <label class="chk"><input type="checkbox" id="studentChk">学生向けカードも候補に含める</label>
     </div>
     <p class="hint" style="margin-top:10px">通常還元だけで比較します。デビットカードは口座から即時引落です。マイルは上の設定値で円換算し、特典航空券の空席・税金・搭乗/航空券ボーナスは計算しません。チェックを入れると、PayPayアプリ登録・本人確認や学生条件を満たしたカードも候補に含めます。</p>
-  </section>
-
-  <section class="card">
-    <h2>3. 条件・キャンペーン（別試算）</h2>
-    <div class="conditiongrid">
-      <div class="conditionbox">
-        <h3>楽天市場：5と0のつく日</h3>
-        <label class="chk"><input type="checkbox" id="rakuten5Chk">エントリー済み・今回の楽天市場利用が対象</label>
-        <p>通常の楽天市場還元とは別に、イベント分の<strong>+1%相当</strong>だけを表示。月間上限は1,000ポイントとして試算します。</p>
-      </div>
-      <div class="conditionbox">
-        <h3>楽天市場：お買い物マラソン</h3>
-        <label class="chk"><input type="checkbox" id="marathonChk">エントリー済み・各ショップ税込1,000円以上を確認</label>
-        <p>対象ショップ数（2〜10）</p>
-        <select id="marathonShops" aria-label="お買い物マラソンの対象ショップ数"><option value="2">2ショップ</option><option value="3">3ショップ</option><option value="4">4ショップ</option><option value="5">5ショップ</option><option value="6">6ショップ</option><option value="7">7ショップ</option><option value="8">8ショップ</option><option value="9">9ショップ</option><option value="10">10ショップ</option></select>
-        <p>通常1倍を除くイベント上乗せのみ。上限は7,000ポイントとして試算します。</p>
-      </div>
-      <div class="conditionbox">
-        <h3>三井住友カード ゴールド（NL）100万円修行</h3>
-        <p>今年の<strong>集計対象利用額</strong>を、Vpass 等で確認して入力。家計簿合計を自動転記しないので、対象外利用を誤って含めません。</p>
-        <div class="inp"><span class="yen">¥</span><input id="goldQualifyingSpend" type="number" inputmode="numeric" min="0" max="1000000" step="1000" placeholder="例：650000"></div>
-      </div>
-    </div>
-    <div class="conditionresult" id="campaignResult">家計簿を試算すると、楽天市場分のイベント上乗せを表示します。</div>
-    <div class="conditionresult" id="goldResult">集計対象利用額を入力すると、100万円達成までの残額を表示します。</div>
+    <div class="controls manual-actions" style="margin-top:14px"><button class="calculate-action" id="calcBtn2">計算する</button></div>
   </section>
 
   <div class="results" id="results">
@@ -296,7 +269,7 @@
     </section>
 
     <section class="card" id="storeCard">
-      <h2>4. 店舗別の最適カード（確認済みの個別ルール）</h2>
+      <h2>3. 店舗別の最適カード（確認済みの個別ルール）</h2>
       <table class="brk">
         <thead><tr><th>お店</th><th class="num">月の支出</th><th>最適カード</th><th class="num">還元</th></tr></thead>
         <tbody id="storeBody"></tbody>
@@ -305,7 +278,7 @@
     </section>
 
     <section class="card">
-      <h2>5. 支出の内訳と、分野ごとの上乗せ額</h2>
+      <h2>4. 支出の内訳と、分野ごとの上乗せ額</h2>
       <div class="donutRow">
         <div class="donut"><svg viewBox="0 0 120 120" width="170" height="170" id="donutSvg" role="img" aria-label="カテゴリ別支出の割合"></svg><div class="ctr"><span class="ct-k">月の支出</span><span class="ct-v tnum" id="donutCtr">¥0</span></div></div>
         <div class="legend" id="legend"></div>
@@ -317,12 +290,12 @@
     </section>
 
     <section class="card">
-      <h2>6. カード別 年間実質還元（円換算・年会費差引後）</h2>
+      <h2>5. カード別 年間実質還元（円換算・年会費差引後）</h2>
       <div id="cardBars"></div>
     </section>
 
     <section class="card">
-      <h2>7. 比較に使った実カードの通常還元</h2>
+      <h2>6. 比較に使った実カードの通常還元</h2>
       <details class="ruleset"><summary>還元率・条件・公式根拠を表示</summary>
         <p class="rs-note">通常還元と、店名の一致だけで確実に届く特約店の還元（最低ライン）を比較に使います。時間帯・事前エントリー・決済方法などさらに条件が必要な上位の還元、支払方法、期間限定施策、利用上限は、各カードの公式条件を確認してから別途判断してください。</p>
         <div class="rsgrid" id="rsGrid"></div>
@@ -336,7 +309,8 @@
           <li><strong>実カードのみを候補化。</strong> 年会費・通常還元を公式情報で確認した一般カードを比較します。架空の高還元・マイル換算カードは候補に含めません。</li>
           <li><strong>円換算の前提をカードごとに明記。</strong> ポイントは各カード欄の円換算前提で比較し、交換先で価値が変わるマイル換算は行いません。</li>
           <li><strong>年会費無料フィルタあり。</strong> 初心者は年会費無料に絞れる。</li>
-          <li><strong>キャンペーンは別試算。</strong> エントリー、対象外、上限、開催期間をこの試作だけで判定しません。下記の公式情報と利用時点の規約を確認してください。</li>
+          <li><strong>期間限定キャンペーンは対象外。</strong> 楽天市場の5と0の日・お買い物マラソン、各カードの入会/継続キャンペーンなどは、エントリー・対象外・上限・開催期間をこの診断だけで判定できないため計算に含めません。下記の公式情報と利用時点の規約を確認してください。</li>
+          <li><strong>ガソリンの円/L引きは参考価格による概算。</strong> 出光/シェルSSの2円/L引き（apollostation card）は、詳細設定の「参考：レギュラー1Lの価格」（初期値¥169・全国平均）で割った概算%として表示します。実際の給油時単価によって実際の割引率は変わります。コスモ石油の「会員価格」は具体的な円/L額が公表されていないため計算していません。</li>
         </ul>
         <p><strong>v22で参照した公式情報（2026-07-23確認・v22追加5枚は2026-07-24確認）</strong></p>
         <ul class="source-links">
@@ -429,6 +403,8 @@
     "現金キャッシュバック":{yen:1.0,note:"1円=1円として比較"}
   };
   function mileYen(){var el=document.getElementById("mileValue"),v=el?parseFloat(el.value):1.5;return isFinite(v)&&v>0?v:1.5;}  function rewardYen(card){var r=REWARDS[card.reward];return r?(r.mile?mileYen():r.yen):1.0;}
+  // 円/L引きを概算の%に変換するための参考燃料価格（利用者が調整可・全国平均169円が初期値）。
+  function fuelPriceYen(){var el=document.getElementById("fuelPrice"),v=el?parseFloat(el.value):169;return isFinite(v)&&v>0?v:169;}
   function rewardNote(reward){var r=REWARDS[reward];return r&&r.mile?"1マイル="+yen(mileYen())+"で円換算":(r?r.note:"");}
 
   // rates: CSVカテゴリだけで判定できる確認済みの例外。merchants は店名だけで適用できる通常特典に限る。決済手段・曜日が必要なミニストップAEON Pay特典は明示選択時のみ上書きする。
@@ -584,7 +560,12 @@
     {cards:["saison_gold_premium"], stores:["セブン","ローソン","スターバックス","スタバ","珈琲館","カフェ・ド・クリエ","ベローチェ","マクドナルド","マック"], rate:0.025, src:"SAISON GOLD Premium コンビニ/カフェ2.5〜5%（下限2.5%計上）"},
     {cards:["dcard_gold_u"], stores:["ドコモ","docomo","ahamo"], rate:0.05, src:"dカードGOLD U ドコモ料金5%"},
     {cards:["maruetsu_card"], stores:["マルエツ","maruetsu"], rate:0.01, src:"マルエツ1%（WAON POINT2倍）"},
-    {cards:["welcia_card"], stores:["ウエルシア","welcia","ハックドラッグ","ダックス"], rate:0.025, src:"ウエルシアグループ最大2.5%"}
+    {cards:["welcia_card"], stores:["ウエルシア","welcia","ハックドラッグ","ダックス"], rate:0.025, src:"ウエルシアグループ最大2.5%"},
+    // 給油の円/L引きは、参考燃料価格(fuelPrice設定・初期値169円)で割って概算%に変換する。
+    // 円/L引きの金額そのものは公式値だが、%への換算は利用者が設定した参考価格に依存する概算。
+    // ねびきプラス加入時の最大10円/Lは追加登録が必要なため計上しない。コスモ石油は「会員価格」
+    // が具体的な円/L額で公表されていないため、算出せず通常還元のみとする。
+    {cards:["apollostation_card"], stores:["出光","apollostation","シェル","shell"], yenPerLiter:2, src:"出光/シェルSS ガソリン・軽油2円/L引き（参考燃料価格で概算換算）"}
   ];
   // 特約店テーブルを引いて {rate(名目・÷rewardYen済), cap, base} を返す（該当なしはnull）。最初に一致した行を採用。
   function lookupTokuten(card,row){
@@ -602,8 +583,11 @@
         if(!m&&t.category&&row.category===t.category)m=true;
       }
       if(!m)continue;
-      if(t.rate==null)continue;
-      return {rate:t.rate/rewardYen(card),cap:(t.cap!=null?t.cap:null),base:card.base};
+      var vr=null;
+      if(t.rate!=null)vr=t.rate;
+      else if(t.yenPerLiter!=null)vr=t.yenPerLiter/fuelPriceYen();
+      if(vr==null)continue;
+      return {rate:vr/rewardYen(card),cap:(t.cap!=null?t.cap:null),base:card.base};
     }
     return null;
   }
@@ -893,7 +877,6 @@
       return '<div class="barrow'+(isBest?" best":"")+'"><div class="nm">'+esc(c.card.name)+(isBest?'<span class="pill">'+(mode==="multi"?"採用":"最適")+'</span>':"")+' <span class="rw">'+esc(c.card.reward)+'</span><small>'+esc(feeTxt)+'</small></div><div class="track"><div class="fill" style="width:'+w.toFixed(1)+'%"></div></div><div class="amt tnum">'+yen(c.annualNet)+'</div></div>';
     }).join("");
 
-    renderCampaigns(lastRows);
     renderRuleset(condOn);
     var bc0=a.best.cards[0];
     if(bc0){
@@ -904,27 +887,6 @@
     }
     var res=document.getElementById("results");
     if(!res.classList.contains("show")){res.classList.add("show");res.scrollIntoView({behavior:"smooth",block:"start"});}
-  }
-
-  function renderCampaigns(rows){
-    // 楽天モバイル等を混ぜず、ネット通販として入力された「楽天」だけを対象にする。
-    var rakutenSpend=rows.filter(function(row){return row.category==="ネット通販"&&/楽天/.test(row.name||"");}).reduce(function(sum,row){return sum+row.amount;},0);
-    var fiveOn=document.getElementById("rakuten5Chk").checked;
-    var marathonOn=document.getElementById("marathonChk").checked;
-    var shops=parseInt(document.getElementById("marathonShops").value,10)||2;
-    var fiveBonus=fiveOn?Math.min(rakutenSpend*0.01,1000):0;
-    // マラソンは通常1倍を除く。各ショップ1,000円条件の充足は利用者が確認する。
-    var marathonBonus=marathonOn?Math.min(rakutenSpend*Math.max(0,shops-1)*0.01,7000):0;
-    var campaign=document.getElementById("campaignResult");
-    if(!rakutenSpend){campaign.textContent="楽天市場として入力されたネット通販支出がありません。楽天モバイル等はイベント対象に含めません。";}
-    else if(!fiveOn&&!marathonOn){campaign.textContent="楽天市場として入力された月額は "+yen(rakutenSpend)+"。条件を確認してチェックすると、通常還元と別にイベント上乗せを表示します。";}
-    else{campaign.innerHTML="楽天市場として入力：<strong>"+yen(rakutenSpend)+"/月</strong>。今回分のイベント上乗せは <strong>+"+yen(fiveBonus+marathonBonus)+"相当</strong>（5と0の日 +"+yen(fiveBonus)+"、マラソン +"+yen(marathonBonus)+"）。年間還元・カード比較には加算しません。";}
-
-    var input=document.getElementById("goldQualifyingSpend");
-    var raw=parseFloat(input.value),gold=document.getElementById("goldResult");
-    if(!isFinite(raw)||raw<0){gold.textContent="集計対象利用額を入力すると、100万円達成までの残額を表示します。";return;}
-    var used=Math.min(raw,1000000),remaining=Math.max(0,1000000-used);
-    gold.innerHTML=remaining?"ゴールド（NL）100万円修行：あと <strong>"+yen(remaining)+"</strong>。達成判定はVpassの集計対象利用額で確認してください。":"ゴールド（NL）100万円修行：<strong>100万円に到達</strong>。翌年以降の年会費永年無料・毎年10,000ポイント特典は、利用時点の条件・対象外利用を公式規約で確認してください。";
   }
 
   function renderRuleset(condOn){
@@ -976,7 +938,7 @@
     "外食":[["マクドナルド","マクドナルド"],["モスバーガー","モス"],["ケンタッキー","ケンタッキー"],["吉野家","吉野家"],["松屋","松屋"],["松のや","松のや"],["すき家","すき家"],["ガスト","ガスト"],["ジョナサン","ジョナサン"],["バーミヤン","バーミヤン"],["夢庵","夢庵"],["しゃぶ葉","しゃぶ葉"],["サイゼリヤ","サイゼ"],["ドミノ・ピザ","ドミノ"],["サンマルクカフェ","サンマルク"],["ピザハット","ピザハット"],["スシロー","スシロー"],["くら寿司","くら寿司"],["はま寿司","はま寿司"],["かっぱ寿司","かっぱ寿司"],["ゼッテリア","ゼッテリア"],["ロッテリア","ロッテリア"],["ココス","ココス"],["から好し","から好し"],["ドトール","ドトール"],["スターバックス","スタバ"],["珈琲館","珈琲館"],["カフェ・ド・クリエ","カフェ・ド・クリエ"],["ベローチェ","ベローチェ"],["その他外食","外食"]],
     "ドラッグストア":[["マツキヨ","マツキヨ"],["ウエルシア","ウエルシア"],["サンドラッグ","サンドラッグ"],["ツルハ","ツルハ"],["スギ薬局","スギ薬局"],["ココカラファイン","ココカラ"],["その他ドラッグ","ドラッグ"]],
     "スーパー":[["イオン","イオン"],["まいばすけっと","まいばす"],["マックスバリュ","マックスバリュ"],["ダイエー","ダイエー"],["マルナカ","マルナカ"],["カスミ","カスミ"],["いなげや","いなげや"],["ザ・ビッグ","ザ・ビッグ"],["ビブレ","ビブレ"],["マルエツ","マルエツ"],["肉のハナマサ","肉のハナマサ"],["オーケー","オーケー"],["オオゼキ","オオゼキ"],["東急ストア","東急ストア"],["東武ストア","東武ストア"],["アオキスーパー","アオキスーパー"],["三和","三和"],["ジャパンミート","ジャパンミート"],["ヤマナカ","ヤマナカ"],["近商","近商"],["ドミー","ドミー"],["サンリブ","サンリブ"],["ハーベス","ハーベス"],["スーパー魚長","スーパー魚長"],["フィール","フィール"],["フードストア","フードストア"],["フードワン","フードワン"],["業務スーパー","業務スーパー"],["その他スーパー","スーパー"]],
-    "ネット通販":[["Amazon","Amazon"],["楽天市場","楽天市場"],["Yahoo!ショッピング","yahoo"],["ヨドバシ","ヨドバシ"],["メルカリ","メルカリ"],["その他ネット","ネット通販"]],
+    "ネット通販":[["Amazon","Amazon"],["楽天市場","楽天市場"],["Yahoo!ショッピング","yahoo"],["ヨドバシ","ヨドバシ"],["メルカリ","メルカリ"],["Qoo10","Qoo10"],["その他ネット","ネット通販"]],
     "交通":[["JR","JR"],["東急","東急"],["京王","京王"],["京急","京急"],["東武","東武"],["西武","西武"],["南海","南海"],["その他私鉄・交通","交通"]],
     "携帯・通信":[["ドコモ","ドコモ"],["au","au"],["ソフトバンク","ソフトバンク"],["楽天モバイル","楽天モバイル"],["その他通信","通信"]],
     "公共料金":[["電気","電気"],["ガス","ガス"],["水道","水道"],["その他公共料金","公共料金"]],
@@ -1052,13 +1014,17 @@
   document.getElementById("studentChk").addEventListener("change",function(){if(lastRows)render();});
   document.getElementById("prefReward").addEventListener("change",function(){if(lastRows)render();});
   document.getElementById("mileValue").addEventListener("change",function(){if(lastRows)render();});
-  document.getElementById("rakuten5Chk").addEventListener("change",function(){if(lastRows)render();});
-  document.getElementById("marathonChk").addEventListener("change",function(){if(lastRows)render();});
-  document.getElementById("marathonShops").addEventListener("change",function(){if(lastRows)render();});
-  document.getElementById("goldQualifyingSpend").addEventListener("input",function(){renderCampaigns(lastRows||[]);});
+  document.getElementById("fuelPrice").addEventListener("change",function(){if(lastRows)render();});
   document.getElementById("inTabCsv").addEventListener("click",function(){setInputMode("csv");});
   document.getElementById("inTabManual").addEventListener("click",function(){setInputMode("manual");});
-  document.getElementById("manualCalc").addEventListener("click",function(){lastRows=manualRows();lastFromCsv=false;if(!lastRows.length){alert("金額をどれか1つでも入れてください。");return;}render();showResultModal();});
+  function calculateNow(){
+    if(document.getElementById("inTabCsv").getAttribute("aria-selected")==="true"){recompute();return;}
+    lastRows=manualRows();lastFromCsv=false;
+    if(!lastRows.length){alert("金額をどれか1つでも入れてください。");return;}
+    render();showResultModal();
+  }
+  document.getElementById("manualCalc").addEventListener("click",calculateNow);
+  document.getElementById("calcBtn2").addEventListener("click",calculateNow);
   document.getElementById("modalClose").addEventListener("click",function(){document.getElementById("resultModal").classList.add("hide");});
   document.getElementById("modalCsv").addEventListener("click",exportCsv);
   document.getElementById("resultModal").addEventListener("click",function(e){if(e.target.id==="resultModal")document.getElementById("resultModal").classList.add("hide");});
