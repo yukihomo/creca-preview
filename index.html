@@ -115,6 +115,8 @@
   .barrow{display:grid;grid-template-columns:minmax(150px,1.3fr) 1fr auto;gap:12px;align-items:center;padding:9px 0;border-top:1px solid var(--line);}
   .barrow:first-of-type{border-top:0;}
   .barrow .nm{font-size:13.5px;font-weight:600;} .barrow .nm small{display:block;font-weight:500;color:var(--faint);font-size:11.5px;}
+  .barrow .nm>a{color:inherit;text-decoration:underline;text-decoration-color:color-mix(in srgb,currentColor 40%,transparent);}
+  .barrow .nm>a:hover{text-decoration-color:currentColor;}
   .barrow .nm .rw{font-size:10.5px;color:var(--brand);font-weight:600;}
   .track{height:12px;background:var(--bar-track);border-radius:6px;overflow:hidden;} .fill{height:100%;border-radius:6px;background:var(--brand);}
   .barrow.best .fill{background:var(--gold);}
@@ -886,7 +888,8 @@
     document.getElementById("cardBars").innerHTML=a.cardResults.slice().sort(function(x,y){return y.annualNet-x.annualNet;}).map(function(c){
       var isBest=chosen[c.card.name],w=maxNet>0?Math.max(2,(c.annualNet/maxNet)*100):2;
       var feeTxt=c.card.inactivityFee?feeLabel(c.card,true):(c.card.fee>0?("年会費 "+yen(c.card.fee)):c.card.note);
-      return '<div class="barrow'+(isBest?" best":"")+'"><div class="nm">'+esc(c.card.name)+(isBest?'<span class="pill">'+(mode==="multi"?"採用":"最適")+'</span>':"")+' <span class="rw">'+esc(c.card.reward)+'</span><small>'+esc(feeTxt)+'</small></div><div class="track"><div class="fill" style="width:'+w.toFixed(1)+'%"></div></div><div class="amt tnum">'+yen(c.annualNet)+'</div></div>';
+      var nameLink='<a href="'+esc(c.card.source||"#")+'" target="_blank" rel="noopener noreferrer">'+esc(c.card.name)+"</a>";
+      return '<div class="barrow'+(isBest?" best":"")+'"><div class="nm">'+nameLink+(isBest?'<span class="pill">'+(mode==="multi"?"採用":"最適")+'</span>':"")+' <span class="rw">'+esc(c.card.reward)+'</span><small>'+esc(feeTxt)+'</small></div><div class="track"><div class="fill" style="width:'+w.toFixed(1)+'%"></div></div><div class="amt tnum">'+yen(c.annualNet)+'</div></div>';
     }).join("");
 
     renderRuleset(condOn);
