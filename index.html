@@ -144,11 +144,11 @@
   .mcathead .inp .yen{color:var(--faint);font-size:13px;}
   .mcathead .inp input{border:0;background:transparent;color:var(--ink);font-family:inherit;font-size:14px;padding:9px 0;width:100%;outline:none;-moz-appearance:textfield;font-variant-numeric:tabular-nums;}
   .mcathead .inp input::-webkit-outer-spin-button,.mcathead .inp input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0;}
-  .msub{margin-top:9px;}
-  .msub summary{font-size:12px;color:var(--brand);cursor:pointer;padding:3px 0;font-weight:600;list-style:none;}
-  .msub summary::-webkit-details-marker{display:none;}
-  .msub summary::before{content:"▸ ";}
-  .msub[open] summary::before{content:"▾ ";}
+  .mcat-toggle summary{cursor:pointer;list-style:none;}
+  .mcat-toggle summary::-webkit-details-marker{display:none;}
+  .mcat-toggle summary .clbl::before{content:"▸ ";color:var(--brand);font-size:11px;}
+  .mcat-toggle[open] summary .clbl::before{content:"▾ ";}
+  .mcat-total{font-weight:700;color:var(--ink);text-align:right;}
   .msubgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px 12px;margin-top:9px;padding-left:6px;}
   .disclaimer{font-size:12px;color:var(--muted);line-height:1.7;} .disclaimer strong{color:var(--ink);} .disclaimer ul{margin:8px 0 0;padding-left:18px;} .disclaimer li{margin-bottom:5px;}
   .samplebanner{background:var(--gold-soft);color:var(--gold);border:1px solid color-mix(in srgb,var(--gold) 30%,var(--line));border-radius:14px;padding:11px 14px;font-size:12.5px;font-weight:600;margin-bottom:18px;line-height:1.5;}
@@ -214,8 +214,8 @@
       </details>
     </div>
     <div id="manualPanel">
-      <p class="hint" style="margin:0 0 12px">カテゴリごとに1か月のだいたいの支出を入れるだけ（0でOK）。店名まで分かると、確認済みの特約店ルールに一致した分の上乗せを自動で反映します。</p>
-      <p class="normal-rule"><strong>コンビニ・スーパーは店舗ごとの入力が必須です：</strong>店名が分からないと特約店ルールを判定できないため、この2カテゴリだけはカテゴリ合計ではなく店舗別の内訳で入力してください。決済方法・時間帯・事前エントリーなどさらに条件が必要な上位の還元（ミニストップのAEON Pay5%・10%、ローソンの時間帯・エントリー特典など）は、店名だけでは判定できないため含めません。</p>
+      <p class="hint" style="margin:0 0 12px">ガソリン・その他は合計金額を直接入力（0でOK）。コンビニ・スーパー・外食・ドラッグストア・ネット通販・交通・携帯・通信・公共料金はタップして開くと店舗別の入力欄が出てきます（合計は自動で表示）。</p>
+      <p class="normal-rule"><strong>店舗別入力のカテゴリは、店名の一致だけで特約店ルールを自動反映：</strong>店名が分からないと特約店ルールを判定できないため、これらのカテゴリはカテゴリ合計を直接入力できず、店舗別の内訳から自動集計します。決済方法・時間帯・事前エントリーなどさらに条件が必要な上位の還元（ミニストップのAEON Pay5%・10%、ローソンの時間帯・エントリー特典など）は、店名だけでは判定できないため含めません。</p>
       <div class="mgrid" id="manualGrid"></div>
       <div class="controls manual-actions">
         <button class="calculate-action" id="manualCalc">計算する</button>
@@ -976,13 +976,19 @@
     "ドラッグストア":[["マツキヨ","マツキヨ"],["ウエルシア","ウエルシア"],["サンドラッグ","サンドラッグ"],["ツルハ","ツルハ"],["スギ薬局","スギ薬局"],["ココカラファイン","ココカラ"],["その他ドラッグ","ドラッグ"]],
     "スーパー":[["イオン","イオン"],["まいばすけっと","まいばす"],["マックスバリュ","マックスバリュ"],["ダイエー","ダイエー"],["マルナカ","マルナカ"],["カスミ","カスミ"],["いなげや","いなげや"],["ザ・ビッグ","ザ・ビッグ"],["ビブレ","ビブレ"],["マルエツ","マルエツ"],["肉のハナマサ","肉のハナマサ"],["オーケー","オーケー"],["オオゼキ","オオゼキ"],["東急ストア","東急ストア"],["東武ストア","東武ストア"],["アオキスーパー","アオキスーパー"],["三和","三和"],["ジャパンミート","ジャパンミート"],["ヤマナカ","ヤマナカ"],["近商","近商"],["ドミー","ドミー"],["サンリブ","サンリブ"],["ハーベス","ハーベス"],["スーパー魚長","スーパー魚長"],["フィール","フィール"],["フードストア","フードストア"],["フードワン","フードワン"],["業務スーパー","業務スーパー"],["その他スーパー","スーパー"]],
     "ネット通販":[["Amazon","Amazon"],["楽天市場","楽天市場"],["Yahoo!ショッピング","yahoo"],["ヨドバシ","ヨドバシ"],["メルカリ","メルカリ"],["その他ネット","ネット通販"]],
-    "交通":[["JR乗車","JR"],["東急","東急"],["京王","京王"],["京急","京急"],["東武","東武"],["西武","西武"],["南海","南海"],["その他私鉄・交通","交通"]],
+    "交通":[["JR","JR"],["東急","東急"],["京王","京王"],["京急","京急"],["東武","東武"],["西武","西武"],["南海","南海"],["その他私鉄・交通","交通"]],
     "携帯・通信":[["ドコモ","ドコモ"],["au","au"],["ソフトバンク","ソフトバンク"],["楽天モバイル","楽天モバイル"],["その他通信","通信"]],
     "公共料金":[["電気","電気"],["ガス","ガス"],["水道（クレカ不可・現金）","水道"],["その他公共料金","公共料金"]]
   };
-  // コンビニは店名が分からないと特約店ルールを判定できないため、カテゴリ合計の入力欄を出さず
-  // 店舗別入力のみにする（他のカテゴリは任意の内訳として両方を出す）。
-  var DETAIL_ONLY_CATS={"コンビニ":true,"スーパー":true};
+  // 店舗別の内訳があるカテゴリ（MANUAL_SUBにある分）は、店名が分からないと特約店ルールを
+  // 判定できないため、カテゴリ合計は入力欄ではなく自動集計の表示にする（店舗別入力は
+  // クリックで開くタブの中）。内訳が無いカテゴリ（ガソリン・その他）は合計を直接入力する。
+  function updateCatTotal(i){
+    var subs=MANUAL_SUB[CATS[i]];if(!subs)return;
+    var total=0;
+    subs.forEach(function(s,j){var el=document.getElementById("man_sub_"+i+"_"+j);var v=el?parseFloat(el.value):NaN;if(isFinite(v))total+=v;});
+    var t=document.getElementById("man_total_"+i);if(t)t.textContent=yen(total);
+  }
   function manualFillSample(){
     var subAgg={};CATS.forEach(function(c){var subs=MANUAL_SUB[c];if(subs)subAgg[c]=subs.map(function(){return 0;});});
     var flatAgg={};CATS.forEach(function(c){flatAgg[c]=0;});
@@ -996,8 +1002,8 @@
     });
     CATS.forEach(function(c,i){
       var subs=MANUAL_SUB[c];
-      if(subs){subs.forEach(function(s,j){var se=document.getElementById("man_sub_"+i+"_"+j);if(se)se.value=subAgg[c][j]||"";});}
-      if(!DETAIL_ONLY_CATS[c]){var el=document.getElementById("man_"+i);if(el)el.value=flatAgg[c]||"";}
+      if(subs){subs.forEach(function(s,j){var se=document.getElementById("man_sub_"+i+"_"+j);if(se)se.value=subAgg[c][j]||"";});updateCatTotal(i);}
+      else{var el=document.getElementById("man_"+i);if(el)el.value=flatAgg[c]||"";}
     });
   }
   function subInp(id,label){return '<div class="mfield"><label for="'+id+'">'+esc(label)+'</label><div class="inp"><span class="yen">¥</span><input id="'+id+'" type="number" inputmode="numeric" min="0" step="100" placeholder="0"></div></div>';}
@@ -1006,13 +1012,18 @@
     CARDS.forEach(function(c){if(c.reward==="ポイント"||seen[c.reward])return;seen[c.reward]=1;opts+='<option value="'+esc(c.reward)+'">'+esc(c.reward)+'</option>';});
     sel.innerHTML+=opts;
     document.getElementById("manualGrid").innerHTML=CATS.map(function(c,i){
-      var detailOnly=DETAIL_ONLY_CATS[c];
-      var head=detailOnly?'<div class="mcathead"><span class="clbl">'+esc(c)+'</span></div>':'<div class="mcathead"><span class="clbl">'+esc(c)+'</span><div class="inp"><span class="yen">¥</span><input id="man_'+i+'" type="number" inputmode="numeric" min="0" step="100" placeholder="0"></div></div>';
       var subs=MANUAL_SUB[c];
-      if(subs&&detailOnly){var si=subs.map(function(s,j){return subInp("man_sub_"+i+"_"+j,s[0]);}).join("");return '<div class="mcat">'+head+'<div class="msubgrid" style="margin-top:9px">'+si+'</div></div>';}
-      if(subs){var si2=subs.map(function(s,j){return subInp("man_sub_"+i+"_"+j,s[0]);}).join("");return '<div class="mcat">'+head+'<details class="msub"><summary>店舗別に分ける（任意・精度UP）</summary><div class="msubgrid">'+si2+'</div></details></div>';}
+      if(subs){
+        var si=subs.map(function(s,j){return subInp("man_sub_"+i+"_"+j,s[0]);}).join("");
+        return '<div class="mcat"><details class="mcat-toggle"><summary><div class="mcathead"><span class="clbl">'+esc(c)+'</span><span class="mcat-total tnum" id="man_total_'+i+'">¥0</span></div></summary><div class="msubgrid" style="margin-top:9px">'+si+'</div></details></div>';
+      }
+      var head='<div class="mcathead"><span class="clbl">'+esc(c)+'</span><div class="inp"><span class="yen">¥</span><input id="man_'+i+'" type="number" inputmode="numeric" min="0" step="100" placeholder="0"></div></div>';
       return '<div class="mcat">'+head+'</div>';
     }).join("");
+    CATS.forEach(function(c,i){
+      var subs=MANUAL_SUB[c];if(!subs)return;
+      subs.forEach(function(s,j){var el=document.getElementById("man_sub_"+i+"_"+j);if(el)el.addEventListener("input",function(){updateCatTotal(i);});});
+    });
   })();
 
   document.getElementById("sampleBtn").addEventListener("click",function(){document.getElementById("csvInput").value=sampleText();refreshCsvMapping();recompute();});
@@ -1051,7 +1062,7 @@
   document.getElementById("resultModal").addEventListener("click",function(e){if(e.target.id==="resultModal")document.getElementById("resultModal").classList.add("hide");});
   document.getElementById("manualSample").addEventListener("click",manualFillSample);
   document.getElementById("manualClear").addEventListener("click",function(){
-    CATS.forEach(function(c,i){var el=document.getElementById("man_"+i);if(el)el.value="";var subs=MANUAL_SUB[c];if(subs)subs.forEach(function(s,j){var se=document.getElementById("man_sub_"+i+"_"+j);if(se)se.value="";});});
+    CATS.forEach(function(c,i){var el=document.getElementById("man_"+i);if(el)el.value="";var subs=MANUAL_SUB[c];if(subs){subs.forEach(function(s,j){var se=document.getElementById("man_sub_"+i+"_"+j);if(se)se.value="";});updateCatTotal(i);}});
   });
   setInputMode("manual");
   setMode("single");
